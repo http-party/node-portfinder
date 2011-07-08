@@ -5,7 +5,7 @@
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "http://github.com/indexzero/nconf-redis.git" 
+    "url": "git@github.com:indexzero/node-portfinder.git" 
   },
   "keywords": ["http", "ports", "utilities"],
   "dependencies": {
