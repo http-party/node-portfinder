@@ -1,0 +1,20 @@
+{
+  "name": "portfinder",
+  "description": "A simple tool to find an open port on the current machine",
+  "version": "0.1.0",
+  "author": "Charlie Robbins <charlie.robbins@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/indexzero/nconf-redis.git" 
+  },
+  "keywords": ["http", "ports", "utilities"],
+  "dependencies": {
+    "async": "0.1.x"
+  },
+  "devDependencies": {
+    "vows": "0.5.x"
+  },
+  "main": "./lib/portfinder",
+  "scripts": { "test": "vows test/*-test.js --spec" },
+  "engines": { "node": ">= 0.4.0" }
+}
