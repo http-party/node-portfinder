@@ -9,9 +9,10 @@
   },
   "keywords": ["http", "ports", "utilities"],
   "dependencies": {
-    "async": "0.1.x"
+    "mkdirp": "0.0.x"
   },
   "devDependencies": {
+    "async": "0.1.x",
     "vows": "0.5.x"
   },
   "main": "./lib/portfinder",
