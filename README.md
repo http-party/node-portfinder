@@ -34,4 +34,5 @@ By default `portfinder` will start searching from `8000`. To change this simply 
 ```
 
 #### Author: [Charlie Robbins][0]
+#### License: MIT/X11
 [0]: http://nodejitsu.com
