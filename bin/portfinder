@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+var portfinder = require('portfinder')
+  , argv = require('optimist').argv;
+  
+var options = {
+  port: argv.start || portfinder.basePort,
+  host: argv.host  || null
+};
+
+portfinder.getPort(options, function (err, port) {
+  if (err) {
+    console.warn(err);
+    process.exit(-1);
+  } else {
+    console.log(port);
+    process.exit();
+  }
+});
