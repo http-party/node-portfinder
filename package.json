@@ -13,8 +13,7 @@
     "utilities"
   ],
   "dependencies": {
-    "mkdirp": "0.0.x",
-    "optimist": "0.6.1"
+    "mkdirp": "0.0.x"
   },
   "devDependencies": {
     "async": "0.1.x",

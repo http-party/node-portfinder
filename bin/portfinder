@@ -1,10 +1,31 @@
 #!/usr/bin/env node
-var portfinder = require('portfinder')
-  , argv = require('optimist').argv;
+
+var getNamedArguments = function() {
+  var lastArg = false
+    , namedArgs = {};
   
+  process.argv.slice(2).forEach(function(argument) {
+    if (lastArg !== false && argument.indexOf('--') === -1) {
+      var arg = parseInt(argument, 10);
+      namedArgs[lastArg] = (isNaN(arg) === false) ? arg : argument;
+    }
+  
+    if (argument.indexOf('--') === 0) {
+      lastArg = argument.slice(2);
+    } else {
+      lastArg = false;
+    }
+  });
+  
+  return namedArgs;
+};
+
+var portfinder = require('../lib/portfinder')
+  , namedArgs = getNamedArguments();
+    
 var options = {
-  port: argv.start || portfinder.basePort,
-  host: argv.host  || null
+  port: namedArgs.start || portfinder.basePort,
+  host: namedArgs.host  || null
 };
 
 portfinder.getPort(options, function (err, port) {
