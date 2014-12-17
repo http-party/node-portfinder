@@ -20,7 +20,7 @@ The `portfinder` module has a simple interface:
   
   portfinder.getPort(function (err, port) {
     //
-    // `port` is guarenteed to be a free port 
+    // `port` is guaranteed to be a free port 
     // in this scope.
     //
   });
