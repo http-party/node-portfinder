@@ -10,13 +10,13 @@
   "keywords": ["http", "ports", "utilities"],
   "dependencies": {
     "async": "0.9.0",
-    "mkdirp": "0.0.x"
+    "mkdirp": "0.5.x"
   },
   "devDependencies": {
-    "vows": "0.5.x"
+    "vows": "0.8.0"
   },
   "main": "./lib/portfinder",
   "scripts": { "test": "vows test/*-test.js --spec" },
-  "engines": { "node": ">= 0.4.0" },
+  "engines": { "node": ">= 0.8.0" },
   "license": "MIT/X11"
 }
