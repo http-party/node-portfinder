@@ -2,12 +2,6 @@
 
 ## Installation
 
-### Installing npm (node package manager)
-``` bash
-  curl http://npmjs.org/install.sh | sh
-```
-
-### Installing node-portfinder
 ``` bash
   $ [sudo] npm install portfinder
 ```
