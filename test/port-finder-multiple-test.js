@@ -64,4 +64,25 @@ vows.describe('portfinder').addBatch({
       }
     }
   }
+}).addBatch({
+  "When using portfinder module": {
+    "with no existing servers": {
+      topic: function () {
+        servers.forEach(function (server) {
+          server.close();
+        });
+
+        return null;
+      },
+      "the getPorts() method with an argument of 3 and reserved ports": {
+        topic: function () {
+          portfinder.getPorts(3, {reserved: [8000, 8001, 8002]}, this.callback);
+        },
+        "should respond with the first three available ports (8003, 8004, 8005)": function (err, ports) {
+          assert.isTrue(!err);
+          assert.deepEqual(ports, [8003, 8004, 8005]);
+        }
+      }
+    }
+  }
 }).export(module);
