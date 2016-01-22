@@ -7,38 +7,26 @@
 
 var vows = require('vows'),
     assert = require('assert'),
-    async = require('async'),
-    http = require('http'),
-    portfinder = require('../lib/portfinder');
+    portfinder = require('../lib/portfinder'),
+    testHelper = require('./helper');
+
+portfinder.basePort = 32768;
 
 var servers = [];
-
-function createServers (callback) {
-  var base = 8000;
-
-  async.whilst(
-    function () { return base < 8005 },
-    function (next) {
-      var server = http.createServer(function () { });
-      server.listen(base, next);
-      base++;
-      servers.push(server);
-    }, callback);
-}
 
 vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with 5 existing servers": {
       topic: function () {
-        createServers(this.callback);
+        testHelper(servers, this.callback);
       },
       "the getPorts() method with an argument of 3": {
         topic: function () {
           portfinder.getPorts(3, this.callback);
         },
-        "should respond with the first three available ports (8005, 8006, 8007)": function (err, ports) {
+        "should respond with the first three available ports (32773, 32774, 32775)": function (err, ports) {
           assert.isTrue(!err);
-          assert.deepEqual(ports, [8005, 8006, 8007]);
+          assert.deepEqual(ports, [32773, 32774, 32775]);
         }
       }
     }
@@ -57,9 +45,9 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           portfinder.getPorts(3, this.callback);
         },
-        "should respond with the first three available ports (8000, 8001, 80072": function (err, ports) {
+        "should respond with the first three available ports (32768, 32769, 32770)": function (err, ports) {
           assert.isTrue(!err);
-          assert.deepEqual(ports, [8000, 8001, 8002]);
+          assert.deepEqual(ports, [32768, 32769, 32770]);
         }
       }
     }
