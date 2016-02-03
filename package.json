@@ -7,16 +7,24 @@
     "type": "git",
     "url": "git@github.com:indexzero/node-portfinder.git"
   },
-  "keywords": ["http", "ports", "utilities"],
+  "keywords": [
+    "http",
+    "ports",
+    "utilities"
+  ],
   "dependencies": {
-    "async": "0.9.0",
+    "async": "^1.5.2",
     "mkdirp": "0.5.x"
   },
   "devDependencies": {
     "vows": "0.8.0"
   },
   "main": "./lib/portfinder",
-  "scripts": { "test": "vows test/*-test.js --spec" },
-  "engines": { "node": ">= 0.8.0" },
+  "scripts": {
+    "test": "vows test/*-test.js --spec"
+  },
+  "engines": {
+    "node": ">= 0.12.0"
+  },
   "license": "MIT"
 }
