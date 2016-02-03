@@ -19,13 +19,13 @@ var servers = [],
 
 function createServers (callback) {
   var base = 0;
-  
+
   async.whilst(
     function () { return base < 5 },
     function (next) {
       var server = net.createServer(function () { }),
           name = base === 0 ? 'test.sock' : 'test' + base + '.sock';
-      
+
       server.listen(path.join(socketDir, name), next);
       base++;
       servers.push(server);

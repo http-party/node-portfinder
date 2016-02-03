@@ -7,38 +7,26 @@
 
 var vows = require('vows'),
     assert = require('assert'),
-    async = require('async'),
-    http = require('http'),
-    portfinder = require('../lib/portfinder');
+    portfinder = require('../lib/portfinder'),
+    testHelper = require('./helper');
+
+portfinder.basePort = 32768;
 
 var servers = [];
-
-function createServers (callback) {
-  var base = 8000;
-  
-  async.whilst(
-    function () { return base < 8005 },
-    function (next) {
-      var server = http.createServer(function () { });
-      server.listen(base, next);
-      base++;
-      servers.push(server);
-    }, callback);
-}
 
 vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with 5 existing servers": {
       topic: function () {
-        createServers(this.callback);
+        testHelper(servers, this.callback);
       },
       "the getPort() method": {
         topic: function () {
           portfinder.getPort(this.callback);
         },
-        "should respond with the first free port (8005)": function (err, port) {
+        "should respond with the first free port (32773)": function (err, port) {
           assert.isTrue(!err);
-          assert.equal(port, 8005);
+          assert.equal(port, 32773);
         }
       }
     }
@@ -50,16 +38,16 @@ vows.describe('portfinder').addBatch({
         servers.forEach(function (server) {
           server.close();
         });
-        
+
         return null;
       },
       "the getPort() method": {
         topic: function () {
           portfinder.getPort(this.callback);
         },
-        "should respond with the first free port (8000)": function (err, port) {
+        "should respond with the first free port (32768)": function (err, port) {
           assert.isTrue(!err);
-          assert.equal(port, 8000);
+          assert.equal(port, 32768);
         }
       }
     }
