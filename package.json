@@ -17,6 +17,7 @@
     "mkdirp": "0.5.x"
   },
   "devDependencies": {
+    "glob": "^6.0.4",
     "vows": "0.8.0"
   },
   "main": "./lib/portfinder",
