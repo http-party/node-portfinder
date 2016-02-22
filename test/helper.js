@@ -1,9 +1,9 @@
 var async = require('async'),
-    net = require('net');
+    http = require('http');
 
 
 function createServer(base, host, next) {
-  var server = net.createServer(function () {});
+  var server = http.createServer(function () {});
 
   if (!next) {
     server.listen(base, host);
