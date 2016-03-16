@@ -30,6 +30,15 @@ vows.describe('portfinder').addBatch({
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
+      },
+      "the getPort() method with user passed duplicate host": {
+        topic: function () {
+          portfinder.getPort({ host: '127.0.0.1' }, this.callback);
+        },
+        "should respond with the first free port (32774)": function (err, port) {
+          assert.isTrue(!err);
+          assert.equal(port, 32774);
+        }
       }
     }
   }
