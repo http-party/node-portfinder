@@ -5,6 +5,8 @@
  *
  */
 
+"use strict";
+
 var vows = require('vows'),
     assert = require('assert'),
     portfinder = require('../lib/portfinder'),
