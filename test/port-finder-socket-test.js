@@ -5,6 +5,8 @@
  *
  */
 
+"use strict";
+
 var assert = require('assert'),
     exec = require('child_process').exec,
     net = require('net'),
