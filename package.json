@@ -12,6 +12,9 @@
     "ports",
     "utilities"
   ],
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "async": "^1.5.2",
     "mkdirp": "0.5.x"
