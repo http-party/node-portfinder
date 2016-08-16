@@ -10,7 +10,10 @@
 var vows = require('vows'),
     assert = require('assert'),
     portfinder = require('../lib/portfinder'),
-    testHelper = require('./helper');
+    testHelper = require('./helper'),
+    debug = require('debug');
+
+var debugVows = debug('portfinder:testVows');
 
 portfinder.basePort = 32768;
 
@@ -27,8 +30,8 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32773)": function (err, port) {
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
-          if (err) { console.error(err); }
           assert.equal(port, 32773);
         }
       },
@@ -39,7 +42,7 @@ vows.describe('portfinder').addBatch({
           }.bind(this), 1000);
         },
         "should respond with the first free port (32773)": function (err, port) {
-          if (err) { console.error(err); }
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
@@ -61,7 +64,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32768)": function (err, port) {
-          if (err) { console.error(err); }
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32768);
         }
