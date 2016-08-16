@@ -1,8 +1,7 @@
 "use strict";
 
 var async = require('async'),
-    http = require('http'),
-    portfinder = require('..');
+    http = require('http');
 
 
 function createServer(base, host, next) {
@@ -27,7 +26,7 @@ module.exports = function(servers, callback) {
   async.whilst(
     function () { return base < 32773; },
     function (next) {
-      var hosts = ['localhost'].concat(portfinder._defaultHosts);
+      var hosts = ['localhost'];
       while (hosts.length > 1) { servers.push(createServer(base, hosts.shift())); }
       servers.push(createServer(base, hosts.shift(), next)); // call next for host
       base++;
