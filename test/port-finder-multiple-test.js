@@ -17,7 +17,11 @@ var debugVows = debug('portfinder:testVows');
 
 portfinder.basePort = 32768;
 
-var servers = [];
+var servers = [], counter = 1, _increment_ = 1000;
+
+function increment() {
+  return (counter+=1)*_increment_;
+}
 
 vows.describe('portfinder').addBatch({
   "When using portfinder module": {
@@ -27,7 +31,9 @@ vows.describe('portfinder').addBatch({
       },
       "the getPorts() method with an argument of 3": {
         topic: function () {
-          portfinder.getPorts(3, this.callback);
+          setTimeout(function() {
+            portfinder.getPorts(3, this.callback);
+          }.bind(this), increment());
         },
         "should respond with the first three available ports (32773, 32774, 32775)": function (err, ports) {
           if (err) { debugVows(err); }
@@ -49,7 +55,9 @@ vows.describe('portfinder').addBatch({
       },
       "the getPorts() method with an argument of 3": {
         topic: function () {
-          portfinder.getPorts(3, this.callback);
+          setTimeout(function() {
+            portfinder.getPorts(3, this.callback);
+          }.bind(this), increment());
         },
         "should respond with the first three available ports (32768, 32769, 32770)": function (err, ports) {
           if (err) { debugVows(err); }

@@ -17,7 +17,11 @@ var debugVows = debug('portfinder:testVows');
 
 portfinder.basePort = 32768;
 
-var servers = [];
+var servers = [], counter = 1, _increment_ = 1000;
+
+function increment() {
+  return (counter+=1)*_increment_;
+}
 
 vows.describe('portfinder').addBatch({
   "When using portfinder module": {
@@ -27,7 +31,9 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method": {
         topic: function () {
-          portfinder.getPort(this.callback);
+          setTimeout(function() {
+            portfinder.getPort(this.callback);
+          }.bind(this), increment());
         },
         "should respond with the first free port (32773)": function (err, port) {
           if (err) { debugVows(err); }
@@ -39,7 +45,7 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           setTimeout(function() {
             portfinder.getPort({ host: 'localhost' }, this.callback);
-          }.bind(this), 1000);
+          }.bind(this), increment());
         },
         "should respond with the first free port (32773)": function (err, port) {
           if (err) { debugVows(err); }
@@ -61,7 +67,9 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method": {
         topic: function () {
-          portfinder.getPort(this.callback);
+          setTimeout(function() {
+            portfinder.getPort(this.callback);
+          }.bind(this), increment());
         },
         "should respond with the first free port (32768)": function (err, port) {
           if (err) { debugVows(err); }
