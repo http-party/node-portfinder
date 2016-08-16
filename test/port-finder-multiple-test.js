@@ -10,7 +10,10 @@
 var vows = require('vows'),
     assert = require('assert'),
     portfinder = require('../lib/portfinder'),
-    testHelper = require('./helper');
+    testHelper = require('./helper'),
+    debug = require('debug');
+
+var debugVows = debug('portfinder:testVows');
 
 portfinder.basePort = 32768;
 
@@ -27,6 +30,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPorts(3, this.callback);
         },
         "should respond with the first three available ports (32773, 32774, 32775)": function (err, ports) {
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.deepEqual(ports, [32773, 32774, 32775]);
         }
@@ -48,6 +52,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPorts(3, this.callback);
         },
         "should respond with the first three available ports (32768, 32769, 32770)": function (err, ports) {
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.deepEqual(ports, [32768, 32769, 32770]);
         }

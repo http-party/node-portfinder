@@ -10,7 +10,10 @@
 var vows = require('vows'),
     assert = require('assert'),
     portfinder = require('../lib/portfinder'),
-    testHelper = require('./helper');
+    testHelper = require('./helper'),
+    debug = require('debug');
+
+var debugVows = debug('portfinder:testVows');
 
 portfinder.basePort = 32768;
 
@@ -27,17 +30,21 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32773)": function (err, port) {
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
       },
       "the getPort() method with user passed duplicate host": {
         topic: function () {
-          portfinder.getPort({ host: '127.0.0.1' }, this.callback);
+          setTimeout(function() {
+            portfinder.getPort({ host: 'localhost' }, this.callback);
+          }.bind(this), 3000); // wait for cleanup of bound hosts
         },
-        "should respond with the first free port (32774)": function (err, port) {
+        "should respond with the first free port (32773)": function (err, port) {
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.equal(port, 32774);
+          assert.equal(port, 32773);
         }
       }
     }
@@ -57,6 +64,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32768)": function (err, port) {
+          if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32768);
         }

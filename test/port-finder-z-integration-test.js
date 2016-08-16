@@ -1,6 +1,13 @@
 /*
+NOTE: the z in this file name is so this test runs last. It was causing issues
+when run first, most likely due to its cleanup time (which made its bound hosts
+ confilct with the former 'next' tests, which now run 'before' this test instead,
+hence the 'z' in the name of this file).
+ */
+
+/*
  * port-finder-0-vs-127-test.js: Test for the `portfinder` module.
- * that demonstrates issue #24 
+ * that demonstrates issue #24
  * https://github.com/indexzero/node-portfinder/issues/24
  */
 
@@ -26,7 +33,7 @@ vows.describe('portfinder').addBatch({
         var timer = setTimeout(function() {
           timeout = true;
           process.kill(child.pid);
-          callback(null, "timeout");  
+          callback(null, "timeout");
         }, 10000); // 10 seconds
         var child = child_process.spawn('node', [fileToExec,  port]);
         child.on('close', function() {
@@ -35,7 +42,7 @@ vows.describe('portfinder').addBatch({
             callback(null);
           }
         });
-      });  
+      });
     });
       },
       "should not get a timeout": function (err, res) {

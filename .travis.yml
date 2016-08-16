@@ -10,8 +10,9 @@ before_install:
   - travis_retry npm install
 
 script:
-  - npm test
+  - DEBUG=* npm test
 
 notifications:
   email:
     - charlie.robbins@gmail.com
+    - erik.trom.github@gmail.com

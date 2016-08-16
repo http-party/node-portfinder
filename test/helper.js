@@ -26,7 +26,7 @@ module.exports = function(servers, callback) {
   async.whilst(
     function () { return base < 32773; },
     function (next) {
-      var hosts = ['127.0.0.1', '0.0.0.0', '::1'];
+      var hosts = ['localhost'];
       while (hosts.length > 1) { servers.push(createServer(base, hosts.shift())); }
       servers.push(createServer(base, hosts.shift(), next)); // call next for host
       base++;

@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "async": "^1.5.2",
+    "debug": "^2.2.0",
     "mkdirp": "0.5.x"
   },
   "devDependencies": {
