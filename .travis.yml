@@ -15,3 +15,4 @@ script:
 notifications:
   email:
     - charlie.robbins@gmail.com
+    - erik.trom.github@gmail.com
