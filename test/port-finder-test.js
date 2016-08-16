@@ -34,11 +34,13 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method with user passed duplicate host": {
         topic: function () {
-          portfinder.getPort({ host: 'localhost' }, this.callback);
+          setTimeout(function() {
+            portfinder.getPort({ host: 'localhost' }, this.callback);
+          }.bind(this), 1000);
         },
         "should respond with the first free port (32773)": function (err, port) {
-          assert.isTrue(!err);
           if (err) { console.error(err); }
+          assert.isTrue(!err);
           assert.equal(port, 32773);
         }
       }
@@ -59,8 +61,8 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32768)": function (err, port) {
-          assert.isTrue(!err);
           if (err) { console.error(err); }
+          assert.isTrue(!err);
           assert.equal(port, 32768);
         }
       }

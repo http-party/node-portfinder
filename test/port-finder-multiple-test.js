@@ -27,8 +27,8 @@ vows.describe('portfinder').addBatch({
           portfinder.getPorts(3, this.callback);
         },
         "should respond with the first three available ports (32773, 32774, 32775)": function (err, ports) {
-          assert.isTrue(!err);
           if (err) { console.error(err); }
+          assert.isTrue(!err);
           assert.deepEqual(ports, [32773, 32774, 32775]);
         }
       }
@@ -49,8 +49,8 @@ vows.describe('portfinder').addBatch({
           portfinder.getPorts(3, this.callback);
         },
         "should respond with the first three available ports (32768, 32769, 32770)": function (err, ports) {
-          assert.isTrue(!err);
           if (err) { console.error(err); }
+          assert.isTrue(!err);
           assert.deepEqual(ports, [32768, 32769, 32770]);
         }
       }
