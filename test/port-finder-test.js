@@ -37,7 +37,9 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method with user passed duplicate host": {
         topic: function () {
-          portfinder.getPort({ host: 'localhost' }, this.callback);
+          setTimeout(function() {
+            portfinder.getPort({ host: 'localhost' }, this.callback);
+          }.bind(this), 3000); // wait for cleanup of bound hosts
         },
         "should respond with the first free port (32773)": function (err, port) {
           if (err) { debugVows(err); }
