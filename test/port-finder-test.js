@@ -27,6 +27,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32773)": function (err, port) {
+          assert.isTrue(!err);
           if (err) { console.error(err); }
           assert.equal(port, 32773);
         }
@@ -36,6 +37,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort({ host: '127.0.0.1' }, this.callback);
         },
         "should respond with the first free port (32774)": function (err, port) {
+          assert.isTrue(!err);
           if (err) { console.error(err); }
           assert.equal(port, 32774);
         }
@@ -57,6 +59,7 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32768)": function (err, port) {
+          assert.isTrue(!err);
           if (err) { console.error(err); }
           assert.equal(port, 32768);
         }
