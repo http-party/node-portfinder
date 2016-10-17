@@ -34,7 +34,7 @@ vows.describe('portfinder').addBatch({
           timeout = true;
           process.kill(child.pid);
           callback(null, "timeout");
-        }, 10000); // 10 seconds
+        }, 20000); // 10 seconds
         var child = child_process.spawn('node', [fileToExec,  port]);
         child.on('close', function() {
           if (timeout === false) {
