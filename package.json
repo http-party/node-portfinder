@@ -25,6 +25,7 @@
     "vows": "0.8.0"
   },
   "main": "./lib/portfinder",
+  "types": "./lib/portfinder.d.ts",
   "scripts": {
     "test": "vows test/*-test.js --spec"
   },
