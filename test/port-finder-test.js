@@ -40,22 +40,24 @@ vows.describe('portfinder').addBatch({
           var vow = this;
 
           if (typeof Promise === 'function') {
-            portfinder.getPortPromise()
-              .then(function (port) {
-                vow.callback(null, port);
-              })
-              .catch(function (err) {
-                vow.callback(err, null);
-              });
+            setTimeout(function() {
+              portfinder.getPortPromise()
+                .then(function (port) {
+                  vow.callback(null, port);
+                })
+                .catch(function (err) {
+                  vow.callback(err, null);
+                });
+            }.bind(this), 3000); // wait for cleanup of bound hosts
           } else {
             this.callback(null, 'not applicable')
           }
         },
-        "should respond with a promise of first free port (32774) if Promise are available": function (err, port) {
+        "should respond with a promise of first free port (32773) if Promise are available": function (err, port) {
           if (err) { debugVows(err); }
           assert.isTrue(!err);
           if (port !== 'not applicable') {
-            assert.equal(port, 32774);
+            assert.equal(port, 32773);
           }
         }
       },
