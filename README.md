@@ -20,6 +20,26 @@ The `portfinder` module has a simple interface:
   });
 ```
 
+Or with promise (if Promise are supported) :
+
+``` js
+  const portfinder = require('portfinder');
+
+  portfinder.getPortPromise()
+    .then((port) => {
+        //
+        // `port` is guaranteed to be a free port
+        // in this scope.
+        //
+    })
+    .catch((err) => {
+        //
+        // Could not get a free port, `err` contains the reason.
+        //
+    });
+```
+
+
 By default `portfinder` will start searching from `8000`. To change this simply set `portfinder.basePort`.
 
 ## Run Tests
