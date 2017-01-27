@@ -39,6 +39,7 @@ Or with promise (if Promise are supported) :
     });
 ```
 
+If `portfinder.getPortPromise()` is called on a Node version without Promise (<4), it will throw an Error unless [Bluebird](http://bluebirdjs.com/docs/getting-started.html) or any Promise pollyfill is used.
 
 By default `portfinder` will start searching from `8000`. To change this simply set `portfinder.basePort`.
 
