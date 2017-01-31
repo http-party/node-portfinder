@@ -27,3 +27,7 @@ export let basePort: number;
  */
 export function getPort(callback: PortfinderCallback): void;
 export function getPort(options: PortFinderOptions, callback: PortfinderCallback): void;
+/**
+ * Responds a promise of an unbound port on the current machine.
+ */
+export function getPortPromise(options?: PortFinderOptions): Promise<number>;
