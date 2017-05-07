@@ -54,13 +54,23 @@ function createServers (callback) {
     }, callback);
 }
 
+function stopServers(callback, index) {
+  if (index < servers.length) {
+    servers[index].close(function (err) {
+      if (err) {
+        callback(err, false);
+      } else {
+        stopServers(callback, index + 1);
+      }
+    });
+  } else {
+    callback(null, true);
+  }
+}
+
 function cleanup(callback) {
   fs.rmdirSync(badDir);
-  glob(path.resolve(socketDir, '*'), function (err, files) {
-    if (err) { callback(err); }
-    for (var i = 0; i < files.length; i++) { fs.unlinkSync(files[i]); }
-    callback(null, true);
-  });
+  stopServers(callback, 0);
 }
 
 vows.describe('portfinder').addBatch({
