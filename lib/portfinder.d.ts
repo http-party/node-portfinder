@@ -15,6 +15,10 @@ interface PortFinderOptions{
    * Minimum port (takes precedence over `basePort`).
    */
   port?: number;
+  /**
+   * Maximum port
+   */
+   stopPort?: number;
 }
 
 /**
