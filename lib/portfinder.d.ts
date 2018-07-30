@@ -12,13 +12,17 @@ interface PortFinderOptions{
    */
   host?: string;
   /**
+   * search start port (equals to basePort when not provided)
+   */
+  startPort?: number;
+  /**
    * Minimum port (takes precedence over `basePort`).
    */
   port?: number;
   /**
    * Maximum port
    */
-   stopPort?: number;
+  stopPort?: number;
 }
 
 /**
