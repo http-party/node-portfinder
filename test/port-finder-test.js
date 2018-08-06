@@ -46,6 +46,35 @@ vows.describe('portfinder').addBatch({
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
+      },
+      "the getPort() method with stopPort smaller than available port": {
+        topic: function() {
+          // stopPort: 32722 is smaller than available port 32773 (32768 + 5)
+          setTimeout(function() {
+            portfinder.getPort({ stopPort: 32772 }, this.callback);
+          }.bind(this), 6000); //wait for cleanup of bound hosts.
+        },
+        "should return error": function(err, port) {
+          assert.isTrue(!!err);
+          assert.equal(
+            err.message,
+            'No open ports found in between 32768 and 32772'
+          );
+          return;
+        }
+      },
+      "the getPort() method with stopPort greater than available port": {
+        topic: function() {
+          // stopPort: 32774 is greater than available port 32773 (32768 + 5)
+          setTimeout(function() {
+            portfinder.getPort({ stopPort: 32774 }, this.callback);
+          }.bind(this), 9000); //wait for cleanup of bound hosts.
+        },
+        "should respond with the first free port (32773) less than provided stopPort": function(err, port) {
+          if (err) { debugVows(err); }
+          assert.isTrue(!err);
+          assert.equal(port, 32773);
+        }
       }
     }
   }
