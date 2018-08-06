@@ -52,7 +52,7 @@ vows.describe('portfinder').addBatch({
           // stopPort: 32722 is smaller than available port 32773 (32768 + 5)
           setTimeout(function() {
             portfinder.getPort({ stopPort: 32772 }, this.callback);
-          }.bind(this), 3000); //wait for cleanup of bound hosts.
+          }.bind(this), 6000); //wait for cleanup of bound hosts.
         },
         "should return error": function(err, port) {
           assert.isTrue(!!err);
@@ -68,7 +68,7 @@ vows.describe('portfinder').addBatch({
           // stopPort: 32774 is greater than available port 32773 (32768 + 5)
           setTimeout(function() {
             portfinder.getPort({ stopPort: 32774 }, this.callback);
-          }.bind(this), 3000); //wait for cleanup of bound hosts.
+          }.bind(this), 9000); //wait for cleanup of bound hosts.
         },
         "should respond with the first free port (32773) less than provided stopPort": function(err, port) {
           if (err) { debugVows(err); }
