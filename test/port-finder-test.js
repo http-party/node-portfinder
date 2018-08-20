@@ -19,6 +19,13 @@ portfinder.basePort = 32768;
 
 var servers = [];
 
+var closeServers = function () {
+  servers.forEach(function (server) {
+    server.close();
+  });
+  servers = []
+}
+
 vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with 5 existing servers": {
@@ -30,31 +37,49 @@ vows.describe('portfinder').addBatch({
           portfinder.getPort(this.callback);
         },
         "should respond with the first free port (32773)": function (err, port) {
+          closeServers(); // close all the servers first!
+
           if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
+      },
+    }
+  }
+}).addBatch({
+  "When using portfinder module": {
+    "with 5 existing servers": {
+      topic: function () {
+        testHelper(servers, this.callback);
       },
       "the getPort() method with user passed duplicate host": {
         topic: function () {
-          setTimeout(function() {
-            portfinder.getPort({ host: 'localhost' }, this.callback);
-          }.bind(this), 3000); // wait for cleanup of bound hosts
+          portfinder.getPort({ host: 'localhost' }, this.callback);
         },
         "should respond with the first free port (32773)": function (err, port) {
+          closeServers(); // close all the servers first!
+
           if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
       },
+    }
+  }
+}).addBatch({
+  "When using portfinder module": {
+    "with 5 existing servers": {
+      topic: function () {
+        testHelper(servers, this.callback);
+      },
       "the getPort() method with stopPort smaller than available port": {
-        topic: function() {
+        topic: function () {
           // stopPort: 32722 is smaller than available port 32773 (32768 + 5)
-          setTimeout(function() {
-            portfinder.getPort({ stopPort: 32772 }, this.callback);
-          }.bind(this), 6000); //wait for cleanup of bound hosts.
+          portfinder.getPort({ stopPort: 32772 }, this.callback);
         },
         "should return error": function(err, port) {
+          closeServers() // close all the servers first!
+
           assert.isTrue(!!err);
           assert.equal(
             err.message,
@@ -63,29 +88,34 @@ vows.describe('portfinder').addBatch({
           return;
         }
       },
+    }
+  }
+}).addBatch({
+  "When using portfinder module": {
+    "with 5 existing servers": {
+      topic: function () {
+        testHelper(servers, this.callback);
+      },
       "the getPort() method with stopPort greater than available port": {
-        topic: function() {
+        topic: function () {
           // stopPort: 32774 is greater than available port 32773 (32768 + 5)
-          setTimeout(function() {
-            portfinder.getPort({ stopPort: 32774 }, this.callback);
-          }.bind(this), 9000); //wait for cleanup of bound hosts.
+          portfinder.getPort({ stopPort: 32774 }, this.callback);
         },
         "should respond with the first free port (32773) less than provided stopPort": function(err, port) {
+          closeServers() // close all the servers first!
+
           if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.equal(port, 32773);
         }
-      }
+      },
     }
   }
 }).addBatch({
   "When using portfinder module": {
     "with no existing servers": {
       topic: function () {
-        servers.forEach(function (server) {
-          server.close();
-        });
-
+        closeServers();
         return null;
       },
       "the getPort() method": {
@@ -104,10 +134,7 @@ vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with no existing servers": {
       topic: function () {
-        servers.forEach(function (server) {
-          server.close();
-        });
-
+        closeServers();
         return null;
       },
       "the getPortPromise() method": {
@@ -139,4 +166,19 @@ vows.describe('portfinder').addBatch({
       },
     }
   }
-}).export(module);
+}).addBatch({
+  "When using portfinder module": {
+    // regression test for indexzero/node-portfinder#65
+    "the getPort() method with startPort less than or equal to 80": {
+      topic: function () {
+        portfinder.getPort({startPort: 80}, this.callback);
+      },
+      "should not throw any error.": function(err, port) {
+        if (err) { debugVows(err); }
+        assert.isTrue(!err);
+      }
+    }
+  }
+})
+
+.export(module);
