@@ -20,11 +20,18 @@ function createServer(base, host, next) {
   return server;
 }
 
-module.exports = function(servers, callback) {
-  var base = 32768;
+module.exports = function(servers, startPort, endPort, callback) {
+  if (typeof startPort === 'function') {
+    // Make startPort & endPort optional
+    callback = startPort;
+    startPort = undefined;
+  }
+
+  var base = startPort || 32768;
+  endPort = endPort || 32773;
 
   async.whilst(
-    function () { return base < 32773; },
+    function () { return base < endPort; },
     function (next) {
       var hosts = ['localhost'];
       while (hosts.length > 1) { servers.push(createServer(base, hosts.shift())); }

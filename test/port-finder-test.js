@@ -179,6 +179,29 @@ vows.describe('portfinder').addBatch({
       }
     }
   }
+}).addBatch({
+  "When using portfinder module": {
+    "with no available ports above the start port": {
+      topic: function () {
+        testHelper(servers, 65530, 65536, this.callback);
+      },
+      "the getPort() method requesting an unavailable port": {
+        topic: function () {
+          portfinder.getPort({ port: 65530 }, this.callback);
+        },
+        "should return error": function(err, port) {
+          closeServers() // close all the servers first!
+
+          assert.isTrue(!!err);
+          assert.equal(
+            err.message,
+            'No open ports available'
+          );
+          return;
+        }
+      },
+    }
+  }
 })
 
 .export(module);
