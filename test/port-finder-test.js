@@ -72,10 +72,10 @@ vows.describe('portfinder').addBatch({
       topic: function () {
         testHelper(servers, this.callback);
       },
-      "the getPort() method with stopPort smaller than available port": { // HERE
+      "the getPort() method with stopPort smaller than available port": {
         topic: function () {
           // stopPort: 32722 is smaller than available port 32773 (32768 + 5)
-          portfinder.getPort({ stopPort: 32772 }, this.callback, true);
+          portfinder.getPort({ stopPort: 32772 }, this.callback);
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
