@@ -29,10 +29,15 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           portfinder.getPorts(3, this.callback);
         },
-        "should respond with the first three available ports (32773, 32774, 32775)": function (err, ports) {
+        "should respond with three distinct available ports (>= 32773)": function (err, ports) {
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.deepEqual(ports, [32773, 32774, 32775]);
+          var seen = new Set()
+          for (var port of ports) {
+            assert.isFalse(seen.has(port))
+            assert.isTrue(port >= 32773)
+            seen.add(port)
+          }
         }
       }
     }
@@ -51,10 +56,15 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           portfinder.getPorts(3, this.callback);
         },
-        "should respond with the first three available ports (32768, 32769, 32770)": function (err, ports) {
+        "should respond with three distinct available ports (>= 32768)": function (err, ports) {
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.deepEqual(ports, [32768, 32769, 32770]);
+          var seen = new Set()
+          for (var port of ports) {
+            assert.isFalse(seen.has(port))
+            assert.isTrue(port >= 32773)
+            seen.add(port)
+          }
         }
       }
     }
