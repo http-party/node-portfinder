@@ -182,11 +182,11 @@ vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with no available ports above the start port": {
       topic: function () {
-        testHelper(servers, 65530, 65536, this.callback);
+        testHelper(servers, 39998, 40000, this.callback);
       },
       "the getPort() method requesting an unavailable port": {
         topic: function () {
-          portfinder.getPort({ port: 65530 }, this.callback);
+          portfinder.getPort({ port: 39998 }, this.callback);
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
@@ -194,7 +194,7 @@ vows.describe('portfinder').addBatch({
           assert.isTrue(!!err);
           assert.equal(
             err.message,
-            'No open ports found in between 65530 and 65535'
+            'No open ports found in between 39998 and 40000'
           );
           return;
         }

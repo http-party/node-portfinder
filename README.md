@@ -43,13 +43,13 @@ If `portfinder.getPortPromise()` is called on a Node version without Promise (<4
 
 ### Ports search scope 
 
-By default `portfinder` will start searching from `8000` and scan until maximum port number (`65535`) is reached. 
+By default `portfinder` will start searching from `8000` and scan until maximum port number (`40000`) is reached. `40000` is the highest safe port across platforms. If you are not on OSX, you can safely override the max port up to 65535.
 
 You can change this globally by setting:
 
 ```js
 portfinder.basePort = 3000;    // default: 8000
-portfinder.highestPort = 3333; // default: 65535
+portfinder.highestPort = 3333; // default: 40000; cannot be overriden above 65535
 ```
 
 or by passing optional options object on each invocation:
