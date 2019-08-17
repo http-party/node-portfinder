@@ -25,9 +25,9 @@ vows.describe('portfinder').addBatch({
       topic: function () {
         testHelper(servers, this.callback);
       },
-      "the getPorts() method with an argument of 3": {
+      "the getPorts() method with an argument of 3 and useRandom: true": {
         topic: function () {
-          portfinder.getPorts(3, this.callback);
+          portfinder.getPorts(3, {useRandom: true}, this.callback);
         },
         "should respond with three distinct available ports (>= 32773)": function (err, ports) {
           if (err) { debugVows(err); }
@@ -52,9 +52,9 @@ vows.describe('portfinder').addBatch({
 
         return null;
       },
-      "the getPorts() method with an argument of 3": {
+      "the getPorts() method with an argument of 3 and useRandom: true": {
         topic: function () {
-          portfinder.getPorts(3, this.callback);
+          portfinder.getPorts(3, {useRandom: true}, this.callback);
         },
         "should respond with three distinct available ports (>= 32768)": function (err, ports) {
           if (err) { debugVows(err); }

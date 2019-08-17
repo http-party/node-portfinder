@@ -26,7 +26,7 @@ var closeServers = function () {
   servers = []
 }
 
-vows.describe('portfinder').addBatch({
+vows.describe('portfinder with useRandom').addBatch({
   "When using portfinder module": {
     "with 5 existing servers": {
       topic: function () {
@@ -34,7 +34,7 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method": {
         topic: function () {
-          portfinder.getPort(this.callback);
+          portfinder.getPort({useRandom: true}, this.callback);
         },
         "should respond with a free port (>= 32773)": function (err, port) {
           closeServers(); // close all the servers first!
@@ -54,7 +54,7 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method with user passed duplicate host": {
         topic: function () {
-          portfinder.getPort({ host: 'localhost' }, this.callback);
+          portfinder.getPort({ useRandom: true, host: 'localhost' }, this.callback);
         },
         "should respond with a free port (>= 32773)": function (err, port) {
           closeServers(); // close all the servers first!
@@ -75,7 +75,7 @@ vows.describe('portfinder').addBatch({
       "the getPort() method with stopPort smaller than available port": {
         topic: function () {
           // stopPort: 32722 is smaller than available port 32773 (32768 + 5)
-          portfinder.getPort({ stopPort: 32772 }, this.callback);
+          portfinder.getPort({ useRandom: true, stopPort: 32772 }, this.callback);
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
@@ -98,7 +98,7 @@ vows.describe('portfinder').addBatch({
       "the getPort() method with stopPort greater than available port": {
         topic: function () {
           // stopPort: 32774 is greater than available port 32773 (32768 + 5)
-          portfinder.getPort({ stopPort: 32780 }, this.callback);
+          portfinder.getPort({ useRandom: true, stopPort: 32780 }, this.callback);
         },
         "should respond with a free port less than provided stopPort": function(err, port) {
           closeServers() // close all the servers first!
@@ -119,7 +119,7 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method": {
         topic: function () {
-          portfinder.getPort(this.callback);
+          portfinder.getPort({useRandom: true}, this.callback);
         },
         "should respond with a free port (>= 32768)": function (err, port) {
           if (err) { debugVows(err); }
@@ -140,7 +140,7 @@ vows.describe('portfinder').addBatch({
         topic: function () {
          var _warn = console.warn
          console.warn = function(){console.warn.wasCalled = true; _warn()}
-          portfinder.getPort({port: 40001 }, this.callback);
+          portfinder.getPort({useRandom: true, port: 40001 }, this.callback);
         },
         "should log a warning and respond with a free port (> 40000)": function (err, port) {
           if (err) { debugVows(err); }
@@ -193,7 +193,7 @@ vows.describe('portfinder').addBatch({
     // regression test for indexzero/node-portfinder#65
     "the getPort() method with startPort less than or equal to 80": {
       topic: function () {
-        portfinder.getPort({startPort: 80}, this.callback);
+        portfinder.getPort({useRandom: true, startPort: 80}, this.callback);
       },
       "should not throw any error.": function(err, port) {
         if (err) { debugVows(err); }
@@ -209,7 +209,7 @@ vows.describe('portfinder').addBatch({
       },
       "the getPort() method requesting an unavailable port": {
         topic: function () {
-          portfinder.getPort({ port: 39998 }, this.callback);
+          portfinder.getPort({ useRandom: true, port: 39998 }, this.callback);
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
