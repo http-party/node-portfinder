@@ -136,6 +136,29 @@ vows.describe('portfinder').addBatch({
         closeServers();
         return null;
       },
+      "the getPort() method with a startPort above 40000 and no explicit stopPort": {
+        topic: function () {
+         var _warn = console.warn
+         console.warn = function(){console.warn.wasCalled = true; _warn()}
+          portfinder.getPort({port: 40001 }, this.callback);
+        },
+        "should log a warning and respond with a free port (> 40000)": function (err, port) {
+          if (err) { debugVows(err); }
+          assert.isTrue(!err);
+          assert.isTrue(console.warn.wasCalled)
+          assert.isTrue(port > 40000);
+          assert.isTrue(port <= 65535);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using portfinder module": {
+    "with no existing servers": {
+      topic: function () {
+        closeServers();
+        return null;
+      },
       "the getPortPromise() method": {
         topic: function () {
           var vow = this;
