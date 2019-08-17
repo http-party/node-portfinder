@@ -61,6 +61,16 @@ portfinder.getPort({
 }, callback);
 ```
 
+### Port scan strategy
+
+By default, portfinder will perform a linear scan from the startPort to the stopPort until it has found a free port (or the number of free ports specified in `getPorts`). This can lead to race conditions if `getPort` is called several times in quick succession: the same port may be returned for multiple calls. To avoid this, you can pass `useRandom: true` into the options, in which case ports in the range from `startPort` to `stopPort` will be checked in random order:
+
+```js
+portfinder.getPort({
+    useRandom: true
+}, callback);
+```
+
 ## Run Tests
 ``` bash
   $ npm test
