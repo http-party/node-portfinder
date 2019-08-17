@@ -36,12 +36,12 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           portfinder.getPort(this.callback);
         },
-        "should respond with the first free port (32773)": function (err, port) {
+        "should respond with a free port (>= 32773)": function (err, port) {
           closeServers(); // close all the servers first!
 
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.equal(port, 32773);
+          assert.isTrue(port >= 32773)
         }
       },
     }
@@ -56,12 +56,12 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           portfinder.getPort({ host: 'localhost' }, this.callback);
         },
-        "should respond with the first free port (32773)": function (err, port) {
+        "should respond with a free port (>= 32773)": function (err, port) {
           closeServers(); // close all the servers first!
 
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.equal(port, 32773);
+          assert.isTrue(port >= 32773)
         }
       },
     }
@@ -79,7 +79,6 @@ vows.describe('portfinder').addBatch({
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
-
           assert.isTrue(!!err);
           assert.equal(
             err.message,
@@ -99,14 +98,14 @@ vows.describe('portfinder').addBatch({
       "the getPort() method with stopPort greater than available port": {
         topic: function () {
           // stopPort: 32774 is greater than available port 32773 (32768 + 5)
-          portfinder.getPort({ stopPort: 32774 }, this.callback);
+          portfinder.getPort({ stopPort: 32780 }, this.callback);
         },
-        "should respond with the first free port (32773) less than provided stopPort": function(err, port) {
+        "should respond with a free port less than provided stopPort": function(err, port) {
           closeServers() // close all the servers first!
-
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.equal(port, 32773);
+          assert.isTrue(port >= 32773);
+          assert.isTrue(port < 32780);
         }
       },
     }
@@ -122,10 +121,10 @@ vows.describe('portfinder').addBatch({
         topic: function () {
           portfinder.getPort(this.callback);
         },
-        "should respond with the first free port (32768)": function (err, port) {
+        "should respond with a free port (>= 32768)": function (err, port) {
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.equal(port, 32768);
+          assert.isTrue(port >= 32768);
         }
       }
     }
@@ -149,7 +148,7 @@ vows.describe('portfinder').addBatch({
               vow.callback(err, null);
             });
         },
-        "should respond with a promise of first free port (32768) if Promise are available": function (err, port) {
+        "should respond with a promise of a free port (>= 32768) if Promise are available": function (err, port) {
           if (typeof Promise !== 'function') {
             assert.isTrue(!!err);
             assert.equal(
@@ -161,7 +160,7 @@ vows.describe('portfinder').addBatch({
           }
           if (err) { debugVows(err); }
           assert.isTrue(!err);
-          assert.equal(port, 32768);
+          assert.isTrue(port >= 32768);
         }
       },
     }
@@ -183,11 +182,11 @@ vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with no available ports above the start port": {
       topic: function () {
-        testHelper(servers, 65530, 65536, this.callback);
+        testHelper(servers, 39998, 40000, this.callback);
       },
       "the getPort() method requesting an unavailable port": {
         topic: function () {
-          portfinder.getPort({ port: 65530 }, this.callback);
+          portfinder.getPort({ port: 39998 }, this.callback);
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
@@ -195,7 +194,7 @@ vows.describe('portfinder').addBatch({
           assert.isTrue(!!err);
           assert.equal(
             err.message,
-            'No open ports available'
+            'No open ports found in between 39998 and 40000'
           );
           return;
         }
