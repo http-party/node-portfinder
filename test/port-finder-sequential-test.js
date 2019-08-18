@@ -101,7 +101,7 @@ vows.describe('portfinder with sequential search (default)').addBatch({
           // stopPort: 32774 is greater than available port 32773 (32768 + 5)
           portfinder.getPort({ stopPort: 32774 }, this.callback);
         },
-        "should respond with the first free port (32773) less than provided stopPort": function(err, port) {
+        "should respond with the first free port (32773) less than or equal to provided stopPort": function(err, port) {
           closeServers() // close all the servers first!
 
           if (err) { debugVows(err); }

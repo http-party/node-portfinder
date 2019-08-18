@@ -100,12 +100,12 @@ vows.describe('portfinder with useRandom').addBatch({
           // stopPort: 32774 is greater than available port 32773 (32768 + 5)
           portfinder.getPort({ useRandom: true, stopPort: 32780 }, this.callback);
         },
-        "should respond with a free port less than provided stopPort": function(err, port) {
+        "should respond with a free port less than or equal to provided stopPort": function(err, port) {
           closeServers() // close all the servers first!
           if (err) { debugVows(err); }
           assert.isTrue(!err);
           assert.isTrue(port >= 32773);
-          assert.isTrue(port < 32780);
+          assert.isTrue(port <= 32780);
         }
       },
     }
