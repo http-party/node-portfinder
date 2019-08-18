@@ -213,7 +213,6 @@ vows.describe('portfinder with useRandom').addBatch({
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
-          console.log({err, port})
 
           assert.isTrue(!!err);
           assert.equal(
