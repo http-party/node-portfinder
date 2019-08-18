@@ -205,7 +205,7 @@ vows.describe('portfinder with useRandom').addBatch({
   "When using portfinder module": {
     "with no available ports above the start port": {
       topic: function () {
-        testHelper(servers, 39998, 40000, this.callback);
+        testHelper(servers, 39998, 40001, this.callback);
       },
       "the getPort() method requesting an unavailable port": {
         topic: function () {
@@ -213,6 +213,7 @@ vows.describe('portfinder with useRandom').addBatch({
         },
         "should return error": function(err, port) {
           closeServers() // close all the servers first!
+          console.log({err, port})
 
           assert.isTrue(!!err);
           assert.equal(
@@ -224,6 +225,17 @@ vows.describe('portfinder with useRandom').addBatch({
       },
     }
   }
-})
-
-.export(module);
+}).addBatch({
+  "When using portfinder module": {
+    "the getPort() method with startPort equal to stopPort": {
+      topic: function () {
+        portfinder.getPort({port: 40000, useRandom: true}, this.callback);
+      },
+      "should return that port if it is available": function(err, port) {
+        if (err) { debugVows(err); }
+        assert.isTrue(!err);
+        assert.isTrue(port == 40000);
+      }
+    }
+  }
+}).export(module);

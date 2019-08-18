@@ -225,6 +225,17 @@ vows.describe('portfinder with sequential search (default)').addBatch({
       },
     }
   }
-})
-
-.export(module);
+}).addBatch({
+  "When using portfinder module": {
+    "the getPort() method with startPort equal to stopPort": {
+      topic: function () {
+        portfinder.getPort({port: 40000}, this.callback);
+      },
+      "should return that port if it is available": function(err, port) {
+        if (err) { debugVows(err); }
+        assert.isTrue(!err);
+        assert.isTrue(port == 40000);
+      }
+    }
+  }
+}).export(module);
