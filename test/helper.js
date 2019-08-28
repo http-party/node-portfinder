@@ -1,6 +1,6 @@
 "use strict";
 
-var async = require('async'),
+var async = require('neo-async'),
     http = require('http');
 
 
