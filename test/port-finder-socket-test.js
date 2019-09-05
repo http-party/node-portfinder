@@ -11,7 +11,7 @@ var assert = require('assert'),
     exec = require('child_process').exec,
     net = require('net'),
     path = require('path'),
-    async = require('neo-async'),
+    _async = require('async'),
     vows = require('vows'),
     portfinder = require('../lib/portfinder'),
     fs = require('fs'),
@@ -24,7 +24,7 @@ var servers = [],
 function createServers (callback) {
   var base = 0;
 
-  async.whilst(
+  _async.whilst(
     function () { return base < 5 },
     function (next) {
       var server = net.createServer(function () { }),
