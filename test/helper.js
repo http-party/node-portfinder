@@ -1,6 +1,6 @@
 "use strict";
 
-var async = require('async'),
+var _async = require('async'),
     http = require('http');
 
 
@@ -30,7 +30,7 @@ module.exports = function(servers, startPort, endPort, callback) {
   var base = startPort || 32768;
   endPort = endPort || 32773;
 
-  async.whilst(
+  _async.whilst(
     function () { return base < endPort; },
     function (next) {
       var hosts = ['localhost'];
