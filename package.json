@@ -5,7 +5,7 @@
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git@github.com:indexzero/node-portfinder.git"
+    "url": "git@github.com:http-party/node-portfinder.git"
   },
   "keywords": [
     "http",
