@@ -168,7 +168,7 @@ vows.describe('portfinder').addBatch({
   }
 }).addBatch({
   "When using portfinder module": {
-    // regression test for indexzero/node-portfinder#65
+    // regression test for http-party/node-portfinder#65
     "the getPort() method with startPort less than or equal to 80": {
       topic: function () {
         portfinder.getPort({startPort: 80}, this.callback);
