@@ -34,6 +34,11 @@ interface PortFinderOptions{
 export let basePort: number;
 
 /**
+ * The highest port to end any port search from.
+ */
+export let highestPort: number;
+
+/**
  * Responds with a unbound port on the current machine.
  */
 export function getPort(callback: PortfinderCallback): void;
