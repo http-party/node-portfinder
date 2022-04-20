@@ -3,7 +3,7 @@
 ## Installation
 
 ``` bash
-  $ [sudo] npm install portfinder
+  $ npm install portfinder
 ```
 
 ## Usage
