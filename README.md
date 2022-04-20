@@ -20,7 +20,7 @@ The `portfinder` module has a simple interface:
   });
 ```
 
-Or with promise (if Promise are supported) :
+Or with promise (if `Promise`s are supported) :
 
 ``` js
   const portfinder = require('portfinder');
