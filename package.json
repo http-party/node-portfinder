@@ -20,7 +20,7 @@
     "debug": "^3.2.7"
   },
   "devDependencies": {
-    "vows": "^0.8.2"
+    "vows": "^0.8.3"
   },
   "main": "./lib/portfinder",
   "types": "./lib/portfinder.d.ts",
