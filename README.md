@@ -1,4 +1,4 @@
-# node-portfinder [![Build Status](https://api.travis-ci.org/http-party/node-portfinder.svg)](https://travis-ci.org/http-party/node-portfinder)
+# node-portfinder [![CI](https://github.com/http-party/node-portfinder/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/http-party/node-portfinder/actions/workflows/ci.yml)
 
 ## Installation
 
@@ -41,9 +41,9 @@ Or with promise (if `Promise`s are supported) :
 
 If `portfinder.getPortPromise()` is called on a Node version without Promise (<4), it will throw an Error unless [Bluebird](http://bluebirdjs.com/docs/getting-started.html) or any Promise pollyfill is used.
 
-### Ports search scope 
+### Ports search scope
 
-By default `portfinder` will start searching from `8000` and scan until maximum port number (`65535`) is reached. 
+By default `portfinder` will start searching from `8000` and scan until maximum port number (`65535`) is reached.
 
 You can change this globally by setting:
 
