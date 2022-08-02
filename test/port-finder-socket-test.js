@@ -69,7 +69,15 @@ function stopServers(callback, index) {
 }
 
 function cleanup(callback) {
-  fs.rmdirSync(badDir);
+  if (fs.existsSync(path.join(badDir, 'deeply', 'nested'))) {
+    fs.rmdirSync(path.join(badDir, 'deeply', 'nested'));
+  }
+  if (fs.existsSync(path.join(badDir, 'deeply'))) {
+    fs.rmdirSync(path.join(badDir, 'deeply'));
+  }
+  if (fs.existsSync(badDir)) {
+    fs.rmdirSync(badDir);
+  }
   stopServers(callback, 0);
 }
 
@@ -83,7 +91,7 @@ vows.describe('portfinder').addBatch({
           }, this.callback);
         }.bind(this));
       },
-      "the getPort() method": {
+      "the getSocket() method": {
         topic: function () {
           portfinder.getSocket({
             path: path.join(socketDir, 'test.sock')
@@ -100,7 +108,7 @@ vows.describe('portfinder').addBatch({
   "When using portfinder module": {
     "with no existing servers": {
       "the getSocket() method": {
-        "with a directory that doesnt exist": {
+        "with a directory that doesn't exist": {
           topic: function () {
             fs.rmdir(badDir, function () {
               portfinder.getSocket({
@@ -111,6 +119,24 @@ vows.describe('portfinder').addBatch({
           "should respond with the first free socket (test.sock)": function (err, socket) {
             assert.isTrue(!err);
             assert.equal(socket, path.join(badDir, 'test.sock'));
+          }
+        },
+        "with a nested directory that doesn't exist": {
+          topic: function () {
+            var that = this;
+            fs.rmdir(path.join(badDir, 'deeply', 'nested'), function () {
+              fs.rmdir(path.join(badDir, 'deeply'), function () {
+                fs.rmdir(badDir, function () {
+                  portfinder.getSocket({
+                    path: path.join(badDir, 'deeply', 'nested', 'test.sock')
+                  }, that.callback);
+                });
+              });
+            });
+          },
+          "should respond with the first free socket (test.sock)": function (err, socket) {
+            assert.isTrue(!err);
+            assert.equal(socket, path.join(badDir, 'deeply', 'nested', 'test.sock'));
           }
         },
         "with a directory that exists": {
