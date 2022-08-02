@@ -34,9 +34,19 @@ interface PortFinderOptions{
 export let basePort: number;
 
 /**
+ * Set the lowest port to begin any port search from.
+ */
+export setBasePort(port: number);
+
+/**
  * The highest port to end any port search from.
  */
 export let highestPort: number;
+
+/**
+ * Set the higheset port to end any port search from.
+ */
+export setHighestPort(port: number);
 
 /**
  * Responds with a unbound port on the current machine.

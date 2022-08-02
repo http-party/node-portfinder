@@ -48,8 +48,8 @@ By default `portfinder` will start searching from `8000` and scan until maximum 
 You can change this globally by setting:
 
 ```js
-portfinder.basePort = 3000;    // default: 8000
-portfinder.highestPort = 3333; // default: 65535
+portfinder.setBasePort(3000);    // default: 8000
+portfinder.setHighestPort(3333); // default: 65535
 ```
 
 or by passing optional options object on each invocation:
