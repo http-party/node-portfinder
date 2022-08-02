@@ -8,14 +8,12 @@
 "use strict";
 
 var assert = require('assert'),
-    exec = require('child_process').exec,
     net = require('net'),
     path = require('path'),
     _async = require('async'),
     vows = require('vows'),
     portfinder = require('../lib/portfinder'),
-    fs = require('fs'),
-    glob = require('glob');
+    fs = require('fs');
 
 var servers = [],
     socketDir = path.join(__dirname, 'fixtures'),
