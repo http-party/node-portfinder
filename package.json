@@ -26,7 +26,7 @@
   "main": "./lib/portfinder",
   "types": "./lib/portfinder.d.ts",
   "scripts": {
-    "test": "./node_modules/.bin/vows test/*-test.js --spec"
+    "test": "vows test/*-test.js --spec"
   },
   "engines": {
     "node": ">= 0.12.0"
