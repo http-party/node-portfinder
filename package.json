@@ -18,16 +18,15 @@
   "dependencies": {
     "async": "^2.6.4",
     "debug": "^3.2.7",
-    "mkdirp": "^0.5.5"
+    "mkdirp": "^0.5.6"
   },
   "devDependencies": {
-    "glob": "^7.1.4",
     "vows": "^0.8.3"
   },
   "main": "./lib/portfinder",
   "types": "./lib/portfinder.d.ts",
   "scripts": {
-    "test": "vows test/*-test.js --spec"
+    "test": "./node_modules/.bin/vows test/*-test.js --spec"
   },
   "engines": {
     "node": ">= 0.12.0"
