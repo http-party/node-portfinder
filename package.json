@@ -13,7 +13,7 @@
     "utilities"
   ],
   "files": [
-    "lib"
+    "dist"
   ],
   "dependencies": {
     "async": "^2.6.4",
@@ -23,10 +23,18 @@
   "devDependencies": {
     "vows": "^0.8.3"
   },
-  "main": "./lib/portfinder",
-  "types": "./lib/portfinder.d.ts",
+  "optionalDependencies": {
+    "@types/async": "^3.2.15",
+    "@types/debug": "^4.1.7",
+    "@types/mkdirp": "^0.5.2",
+    "typescript": "^4.7.4"
+  },
+  "main": "./dist/cjs/portfinder",
+  "module": "./dist/esm/portfinder",
+  "types": "./dist/portfinder.d.ts",
   "scripts": {
-    "test": "vows test/*-test.js --spec"
+    "test": "vows test/*-test.js --spec",
+    "build": "tsc && tsc -p tsconfig-esm.json"
   },
   "engines": {
     "node": ">= 0.12.0"

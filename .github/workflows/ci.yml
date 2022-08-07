@@ -13,23 +13,23 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Set core.autocrlf on windows
-      if: matrix.os == 'windows-latest'
-      run: git config --global core.autocrlf true
+      - name: Set core.autocrlf on windows
+        if: matrix.os == 'windows-latest'
+        run: git config --global core.autocrlf true
 
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Set debug on windows
-      if: matrix.os == 'windows-latest'
-      run: set DEBUG=*
+      - name: Set debug on windows
+        if: matrix.os == 'windows-latest'
+        run: set DEBUG=*
 
-    - run: npm test
+      - run: npm test
