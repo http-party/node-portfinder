@@ -62,7 +62,10 @@ interface PortFinderOptions {
 }
 
 const internals = {
-  testPort: (_options: PortFinderOptions, callback: PortfinderCallback) => {
+  testPort: (
+    _options: PortFinderOptions,
+    callback: PortfinderCallback
+  ): void => {
     let options: PortFinderOptions = {};
     if (!callback || typeof _options === "function") {
       callback = _options as PortfinderCallback;
@@ -151,7 +154,7 @@ export let basePort = 8000;
 /**
  * Set the lowest port to begin any port search from.
  */
-export function setBasePort(port: number) {
+export function setBasePort(port: number): void {
   basePort = port;
 }
 
@@ -163,7 +166,7 @@ export let highestPort = 65535;
 /**
  * Set the higheset port to end any port search from.
  */
-export function setHighestPort(port: number) {
+export function setHighestPort(port: number): void {
   highestPort = port;
 }
 
@@ -307,7 +310,7 @@ export function getPort(
 // #### @options {Object} Settings to use when finding the necessary port
 // Responds a promise to an unbound port on the current machine.
 //
-export function getPortPromise(options: PortFinderOptions) {
+export function getPortPromise(options: PortFinderOptions): Promise<number> {
   if (typeof Promise !== "function") {
     throw Error(
       "Native promise support is not available in this version of node." +
@@ -320,7 +323,7 @@ export function getPortPromise(options: PortFinderOptions) {
       if (err) {
         return reject(err);
       }
-      resolve(port);
+      resolve(port!);
     };
     getPort(options, callback);
   });
@@ -337,7 +340,7 @@ export function getPorts(
   count: number,
   _options: PortfinderCallback | GetPortsCallback,
   callback?: GetPortsCallback
-) {
+): void {
   let options: PortFinderOptions = {};
   if (!callback || typeof _options === "function") {
     callback = _options as GetPortsCallback;
@@ -465,7 +468,7 @@ export function getSocket(
 // Gets the next port in sequence from the
 // specified `port`.
 //
-export function nextPort(port: number) {
+export function nextPort(port: number): number {
   return port + 1;
 }
 
@@ -475,7 +478,7 @@ export function nextPort(port: number) {
 // Gets the next socket path in sequence from the
 // specified `socketPath`.
 //
-export function nextSocket(socketPath: string) {
+export function nextSocket(socketPath: string): string {
   const dir = path.dirname(socketPath);
   const name = path.basename(socketPath, ".sock");
   const match = name.match(/^([a-zA-z]+)(\d*)$/i);

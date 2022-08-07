@@ -60,7 +60,7 @@ export declare function setHighestPort(port: number): void;
 export declare const basePath = "/tmp/portfinder";
 export declare function getPort(callback: PortfinderCallback): void;
 export declare function getPort(options: PortFinderOptions, callback: PortfinderCallback): void;
-export declare function getPortPromise(options: PortFinderOptions): Promise<unknown>;
+export declare function getPortPromise(options: PortFinderOptions): Promise<number>;
 export declare function getPorts(count: number, _options: PortfinderCallback | GetPortsCallback, callback?: GetPortsCallback): void;
 interface GetSocketOptions {
     mod?: mkdirp.Mode;
