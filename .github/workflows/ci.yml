@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -33,3 +33,21 @@ jobs:
       run: set DEBUG=*
 
     - run: npm test
+
+  test-types:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install typescript
+      run: npm install --save-dev typescript
+
+    - run: node_modules/.bin/tsc lib/portfinder.d.ts
