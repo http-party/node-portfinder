@@ -69,4 +69,4 @@ export function getPortPromise(options?: PortFinderOptions): Promise<number>;
 /**
  * Set the base path to begin any socket search from.
  */
-export function setBasePath(path: string);
+export function setBasePath(path: string): void;
