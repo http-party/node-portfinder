@@ -60,3 +60,13 @@ export function getPorts(count: number, options: PortFinderOptions, callback: (e
  * Responds a promise of an unbound port on the current machine.
  */
 export function getPortPromise(options?: PortFinderOptions): Promise<number>;
+
+/**
+ * Default path to begin any socket search from.
+ */
+ export let basePath: string;
+
+/**
+ * Set the base path to begin any socket search from.
+ */
+export function setBasePath(path: string);
