@@ -59,4 +59,40 @@ vows.describe('portfinder').addBatch({
       }
     }
   }
+}).addBatch({
+  "When using portfinder module": {
+    "with no existing servers": {
+      topic: function () {
+        closeServers();
+        return null;
+      },
+      "the getPortPromises() method with an argument of 3": {
+        topic: function () {
+          var vow = this;
+
+          portfinder.getPortsPromise(3)
+            .then(function (ports) {
+              vow.callback(null, ports);
+            })
+            .catch(function (err) {
+              vow.callback(err, null);
+            });
+        },
+        "should respond with the first three available ports (32768, 32769, 32770) if Promise are available": function (err, ports) {
+          if (typeof Promise !== 'function') {
+            assert.isTrue(!!err);
+            assert.equal(
+              err.message,
+              'Native promise support is not available in this version of node.' +
+              'Please install a polyfill and assign Promise to global.Promise before calling this method'
+            );
+            return;
+          }
+          if (err) { debugVows(err); }
+          assert.isTrue(!err);
+          assert.deepEqual(ports, [32768, 32769, 32770]);
+        }
+      },
+    }
+  }
 }).export(module);

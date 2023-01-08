@@ -54,9 +54,18 @@ export function setHighestPort(port: number): void;
 export function getPort(callback: PortfinderCallback): void;
 export function getPort(options: PortFinderOptions, callback: PortfinderCallback): void;
 
-export function getPorts(count: number, options: PortFinderOptions, callback: (err: Error, ports: Array<number>) => void): void;
-
 /**
  * Responds a promise of an unbound port on the current machine.
  */
 export function getPortPromise(options?: PortFinderOptions): Promise<number>;
+
+/**
+ * Responds with an array of unbound ports on the current machine.
+ */
+export function getPorts(count: number, callback: (err: Error, ports: Array<number>) => void): void;
+export function getPorts(count: number, options: PortFinderOptions, callback: (err: Error, ports: Array<number>) => void): void;
+
+/**
+ * Responds a promise that resolves to an array of unbound ports on the current machine.
+ */
+export function getPortsPromise(count: number, options?: PortFinderOptions): Promise<Array<number>>;
