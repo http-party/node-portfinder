@@ -49,6 +49,16 @@ export let highestPort: number;
 export function setHighestPort(port: number): void;
 
 /**
+ * Default path to begin any socket search from.
+ */
+ export let basePath: string;
+
+/**
+ * Set the base path to begin any socket search from.
+ */
+export function setBasePath(path: string): void;
+
+/**
  * Responds with a unbound port on the current machine.
  */
 export function getPort(callback: PortfinderCallback): void;
