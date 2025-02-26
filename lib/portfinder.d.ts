@@ -49,19 +49,6 @@ export let highestPort: number;
 export function setHighestPort(port: number): void;
 
 /**
- * Responds with a unbound port on the current machine.
- */
-export function getPort(callback: PortfinderCallback): void;
-export function getPort(options: PortFinderOptions, callback: PortfinderCallback): void;
-
-export function getPorts(count: number, options: PortFinderOptions, callback: (err: Error, ports: Array<number>) => void): void;
-
-/**
- * Responds a promise of an unbound port on the current machine.
- */
-export function getPortPromise(options?: PortFinderOptions): Promise<number>;
-
-/**
  * Default path to begin any socket search from.
  */
  export let basePath: string;
@@ -70,3 +57,25 @@ export function getPortPromise(options?: PortFinderOptions): Promise<number>;
  * Set the base path to begin any socket search from.
  */
 export function setBasePath(path: string): void;
+
+/**
+ * Responds with a unbound port on the current machine.
+ */
+export function getPort(callback: PortfinderCallback): void;
+export function getPort(options: PortFinderOptions, callback: PortfinderCallback): void;
+
+/**
+ * Responds a promise of an unbound port on the current machine.
+ */
+export function getPortPromise(options?: PortFinderOptions): Promise<number>;
+
+/**
+ * Responds with an array of unbound ports on the current machine.
+ */
+export function getPorts(count: number, callback: (err: Error, ports: Array<number>) => void): void;
+export function getPorts(count: number, options: PortFinderOptions, callback: (err: Error, ports: Array<number>) => void): void;
+
+/**
+ * Responds a promise that resolves to an array of unbound ports on the current machine.
+ */
+export function getPortsPromise(count: number, options?: PortFinderOptions): Promise<Array<number>>;
