@@ -7,13 +7,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [0.12.x, 4.x, 6.x, 8.x, 10.x, 12.x, 14.x, 16.x, 18.x, 20.x, 22.x]
+        node-version: [6.x, 8.x, 10.x, 12.x, 14.x, 16.x, 18.x, 20.x, 22.x]
         os: [ubuntu-latest, macos-latest, windows-latest]
         exclude:
-          - os: macos-latest
-            node-version: 0.12.x
-          - os: macos-latest
-            node-version: 4.x
           - os: macos-latest
             node-version: 6.x
           - os: macos-latest
@@ -40,6 +36,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
+    - name: Update npm
+      if: matrix.node-version == '6.x'
+      run: npm install -g npm@^5
+
     - name: Install dependencies
       run: npm install
 
@@ -53,10 +53,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js 16.x
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v3
       with:
-        node-version: 16.x
+        node-version: 20.x
         cache: 'npm'
 
     - name: Install dependencies
@@ -65,4 +65,4 @@ jobs:
     - name: Install typescript
       run: npm install --save-dev typescript
 
-    - run: node_modules/.bin/tsc --strict lib/portfinder.d.ts
+    - run: node_modules/.bin/tsc --strict --lib es2015 lib/portfinder.d.ts
