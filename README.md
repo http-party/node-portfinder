@@ -1,42 +1,46 @@
-# node-portfinder [![CI](https://github.com/http-party/node-portfinder/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/http-party/node-portfinder/actions/workflows/ci.yml)
+# node-portfinder
+
+[![CI](https://github.com/http-party/node-portfinder/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/http-party/node-portfinder/actions/workflows/ci.yml)
 
 ## Installation
 
+You can install `portfinder` using a package manager like npm, yarn, or bun:
+
 ``` bash
-  $ npm install portfinder
+npm install portfinder
 ```
 
 ## Usage
 The `portfinder` module has a simple interface:
 
 ``` js
-  var portfinder = require('portfinder');
+var portfinder = require('portfinder');
 
-  portfinder.getPort(function (err, port) {
-    //
-    // `port` is guaranteed to be a free port
-    // in this scope.
-    //
-  });
+portfinder.getPort(function (err, port) {
+  //
+  // `port` is guaranteed to be a free port
+  // in this scope.
+  //
+});
 ```
 
 Or with promise (if `Promise`s are supported) :
 
 ``` js
-  const portfinder = require('portfinder');
+const portfinder = require('portfinder');
 
-  portfinder.getPortPromise()
-    .then((port) => {
-        //
-        // `port` is guaranteed to be a free port
-        // in this scope.
-        //
-    })
-    .catch((err) => {
-        //
-        // Could not get a free port, `err` contains the reason.
-        //
-    });
+portfinder.getPortPromise()
+  .then((port) => {
+    //
+    // `port` is guaranteed to be a free port
+    // in this scope.
+    //
+  })
+  .catch((err) => {
+    //
+    // Could not get a free port, `err` contains the reason.
+    //
+  });
 ```
 
 If `portfinder.getPortPromise()` is called on a Node version without Promise (<4), it will throw an Error unless [Bluebird](http://bluebirdjs.com/docs/getting-started.html) or any Promise pollyfill is used.
@@ -56,14 +60,14 @@ or by passing optional options object on each invocation:
 
 ```js
 portfinder.getPort({
-    port: 3000,    // minimum port
-    stopPort: 3333 // maximum port
+  port: 3000,    // minimum port
+  stopPort: 3333 // maximum port
 }, callback);
 ```
 
 ## Run Tests
 ``` bash
-  $ npm test
+npm test
 ```
 
 #### Author: [Charlie Robbins][0]
