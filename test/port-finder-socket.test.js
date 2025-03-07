@@ -21,7 +21,7 @@ function createServers (callback) {
   var base = 0;
 
   _async.whilst(
-    function () { return base < 5 },
+    function (cb) { cb(null, base < 5); },
     function (next) {
       var server = net.createServer(function () { }),
           name = base === 0 ? 'test.sock' : 'test' + base + '.sock',

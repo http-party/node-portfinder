@@ -31,18 +31,20 @@ module.exports.startServers = function(servers, startPort, endPort, callback) {
   endPort = endPort || 32773;
 
   _async.whilst(
-    function () { return base < endPort; },
+    function (cb) { cb(null, base < endPort); },
     function (next) {
       var hosts = ['localhost'];
       while (hosts.length > 1) { servers.push(createServer(base, hosts.shift())); }
       servers.push(createServer(base, hosts.shift(), next)); // call next for host
       base++;
-    }, callback);
+    },
+    callback,
+  );
 };
 
 module.exports.stopServers = function(servers, callback) {
   _async.whilst(
-    function() { return servers.length > 0; },
+    function(cb) { cb(null, servers.length > 0); },
     function(next) {
       servers.pop().close(next);
     },
