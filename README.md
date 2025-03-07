@@ -20,7 +20,7 @@ The `portfinder` module has a simple interface:
   });
 ```
 
-Or with promise (if `Promise`s are supported) :
+Or using promises:
 
 ``` js
   const portfinder = require('portfinder');
@@ -38,8 +38,6 @@ Or with promise (if `Promise`s are supported) :
         //
     });
 ```
-
-If `portfinder.getPortPromise()` is called on a Node version without Promise (<4), it will throw an Error unless [Bluebird](http://bluebirdjs.com/docs/getting-started.html) or any Promise pollyfill is used.
 
 ### Ports search scope
 
