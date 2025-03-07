@@ -20,7 +20,7 @@ function createServer(base, host, next) {
   return server;
 }
 
-module.exports = function(servers, startPort, endPort, callback) {
+module.exports.startServers = function(servers, startPort, endPort, callback) {
   if (typeof startPort === 'function') {
     // Make startPort & endPort optional
     callback = startPort;
@@ -39,3 +39,13 @@ module.exports = function(servers, startPort, endPort, callback) {
       base++;
     }, callback);
 };
+
+module.exports.stopServers = function(servers, callback) {
+  _async.whilst(
+    function() { return servers.length > 0; },
+    function(next) {
+      servers.pop().close(next);
+    },
+    callback,
+  );
+}
