@@ -14,7 +14,7 @@ npm install portfinder
 The `portfinder` module has a simple interface:
 
 ``` js
-var portfinder = require('portfinder');
+const portfinder = require('portfinder');
 
 portfinder.getPort(function (err, port) {
   //
