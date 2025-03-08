@@ -7,13 +7,13 @@
 
 "use strict";
 
-var portfinder = require('../lib/portfinder'),
-    helper = require('./helper');
+const portfinder = require('../lib/portfinder'),
+      helper = require('./helper');
 
 portfinder.basePort = 32768;
 
 describe('with 5 existing servers', function () {
-  var servers = [];
+  const servers = [];
   beforeAll(function (done) {
     helper.startServers(servers, done);
   });

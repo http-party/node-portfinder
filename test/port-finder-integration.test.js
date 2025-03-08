@@ -5,13 +5,13 @@
  */
 
 
-var portfinder = require('../lib/portfinder'),
-    child_process = require('child_process'),
-    path = require('path'),
-    http = require('http');
+const portfinder = require('../lib/portfinder'),
+      child_process = require('child_process'),
+      path = require('path'),
+      http = require('http');
 
 const host = "localhost";
-var server;
+let server;
 
 describe('portfinder', function () {
   afterAll(function (done) {
@@ -24,14 +24,14 @@ describe('portfinder', function () {
     portfinder.getPort(function (err, port) {
       expect(err).toBeNull();
       server = http.createServer(function () {}).listen(port, host, function () {
-        var timeout = false;
-        var fileToExec = path.join(__dirname, 'getPort.js');
-        var timer = setTimeout(function () {
+        let timeout = false;
+        const fileToExec = path.join(__dirname, 'getPort.js');
+        const timer = setTimeout(function () {
           timeout = true;
           process.kill(child.pid);
           done("timeout");
         }, 10000); // 10 seconds
-        var child = child_process.spawn('node', [fileToExec, port]);
+        const child = child_process.spawn('node', [fileToExec, port]);
         child.on('close', function () {
           if (timeout === false) {
             clearTimeout(timer);
