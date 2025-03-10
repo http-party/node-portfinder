@@ -7,25 +7,25 @@
 
 "use strict";
 
-var net = require('net'),
-    path = require('path'),
-    _async = require('async'),
-    portfinder = require('../lib/portfinder'),
-    fs = require('fs');
+const net = require('net'),
+      path = require('path'),
+      _async = require('async'),
+      portfinder = require('../lib/portfinder'),
+      fs = require('fs');
 
-var servers = [],
-    socketDir = path.join(__dirname, 'fixtures'),
-    badDir = path.join(__dirname, 'bad-dir');
+const servers = [],
+      socketDir = path.join(__dirname, 'fixtures'),
+      badDir = path.join(__dirname, 'bad-dir');
 
 function createServers (callback) {
-  var base = 0;
+  let base = 0;
 
   _async.whilst(
     function (cb) { cb(null, base < 5); },
     function (next) {
-      var server = net.createServer(function () { }),
-          name = base === 0 ? 'test.sock' : 'test' + base + '.sock',
-          sock = path.join(socketDir, name);
+      const server = net.createServer(function () { }),
+            name = base === 0 ? 'test.sock' : 'test' + base + '.sock';
+      let sock = path.join(socketDir, name);
 
       // shamelessly stolen from foreverjs,
       // https://github.com/foreverjs/forever/blob/6d143609dd3712a1cf1bc515d24ac6b9d32b2588/lib/forever/worker.js#L141-L154

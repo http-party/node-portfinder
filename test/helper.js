@@ -1,11 +1,11 @@
 "use strict";
 
-var _async = require('async'),
-    http = require('http');
+const _async = require('async'),
+      http = require('http');
 
 
 function createServer(base, host, next) {
-  var server = http.createServer(function () {});
+  const server = http.createServer(function () {});
 
   if (!next) {
     server.listen(base, host);
@@ -27,13 +27,13 @@ module.exports.startServers = function(servers, startPort, endPort, callback) {
     startPort = undefined;
   }
 
-  var base = startPort || 32768;
+  let base = startPort || 32768;
   endPort = endPort || 32773;
 
   _async.whilst(
     function (cb) { cb(null, base < endPort); },
     function (next) {
-      var hosts = ['localhost'];
+      const hosts = ['localhost'];
       while (hosts.length > 1) { servers.push(createServer(base, hosts.shift())); }
       servers.push(createServer(base, hosts.shift(), next)); // call next for host
       base++;
