@@ -20,7 +20,7 @@
     "debug": "^4.3.6"
   },
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^29.7.0"
   },
   "main": "./lib/portfinder",
   "types": "./lib/portfinder.d.ts",
