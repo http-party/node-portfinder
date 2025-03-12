@@ -40,8 +40,11 @@ describe('with no existing servers', function () {
     });
   });
 
-  test('the getPortPromises() method with an argument of 3 should respond with the first three available ports (32768, 32769, 32770)', function (done) {
-    portfinder.getPortsPromise(3)
+  test.each([
+    ['getPorts()', portfinder.getPorts],
+    ['getPortsPromise()', portfinder.getPortsPromise],
+  ])('the %s promise method with an argument of 3 should respond with the first three available ports (32768, 32769, 32770)', function (name, method, done) {
+    method(3)
       .then(function (ports) {
         expect(ports).toEqual([32768, 32769, 32770]);
         done();

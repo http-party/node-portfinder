@@ -61,6 +61,20 @@ describe('with 5 existing servers', function () {
       done();
     });
   });
+
+  test.each([
+    ['getPort()', portfinder.getPort],
+    ['getPortPromise()', portfinder.getPortPromise],
+  ])('the %s promise method should respond with the first free port (32773)', function (name, method, done) {
+    method()
+      .then(function (port) {
+        expect(port).toEqual(32773);
+        done();
+      })
+      .catch(function (err) {
+        done(err);
+      });
+  });
 });
 
 describe('with no existing servers', function () {
@@ -76,8 +90,11 @@ describe('with no existing servers', function () {
     });
   });
 
-  test('the getPortPromise() method should respond with a promise of first free port (32768)', function (done) {
-    portfinder.getPortPromise()
+  test.each([
+    ['getPort()', portfinder.getPort],
+    ['getPortPromise()', portfinder.getPortPromise],
+  ])('the %s promise method should respond with a promise of first free port (32768)', function (name, method, done) {
+    method()
       .then(function (port) {
         expect(port).toEqual(32768);
         done();
