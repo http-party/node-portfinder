@@ -61,6 +61,7 @@ export function setBasePath(path: string): void;
 /**
  * Responds with a unbound port on the current machine.
  */
+export function getPort(options: PortFinderOptions): Promise<number>;
 export function getPort(callback: PortfinderCallback): void;
 export function getPort(options: PortFinderOptions, callback: PortfinderCallback): void;
 
@@ -72,6 +73,7 @@ export function getPortPromise(options?: PortFinderOptions): Promise<number>;
 /**
  * Responds with an array of unbound ports on the current machine.
  */
+export function getPorts(count: number, options: PortFinderOptions): Promise<Array<number>>;
 export function getPorts(count: number, callback: (err: Error, ports: Array<number>) => void): void;
 export function getPorts(count: number, options: PortFinderOptions, callback: (err: Error, ports: Array<number>) => void): void;
 
