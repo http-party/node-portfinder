@@ -22,94 +22,162 @@ describe('with 5 existing servers', function () {
     helper.stopServers(servers, done);
   });
 
-  test('should respond with the first free port (32773)', function (done) {
-    // closeServers(); // close all the servers first!
-    portfinder.getPort(function (err, port) {
-      expect(err).toBeNull();
-      expect(port).toEqual(32773);
-      done();
-    });
-  });
-
-  test('the getPort() method with user passed duplicate host', function (done) {
-    portfinder.getPort({ host: 'localhost' }, function (err, port) {
-      expect(err).toBeNull();
-      expect(port).toEqual(32773);
-      done();
-    });
-  });
-
-  test('the getPort() method with stopPort smaller than available port', function (done) {
-    // stopPort: 32722 is smaller than available port 32773 (32768 + 5)
-    portfinder.getPort({ stopPort: 32772 }, function (err, port) {
-      expect(err).not.toBeNull();
-      expect(err.message).toEqual('No open ports found in between 32768 and 32772');
-      expect(port).toBeUndefined();
-      done();
-    });
-  });
-
-  test('should respond with the first free port (32773) less than provided stopPort', function (done) {
-    // stopPort: 32774 is greater than available port 32773 (32768 + 5)
-    portfinder.getPort({ stopPort: 32774 }, function (err, port) {
-      if (err) {
-        done(err);
-        return;
+  describe.each([
+    ['getPort()', false, portfinder.getPort],
+    ['getPort()', true, portfinder.getPort],
+    ['getPortPromise()', true, portfinder.getPortPromise],
+  ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+    test('should respond with the first free port (32773)', function (done) {
+      if (isPromise) {
+        method()
+          .then(function (port) {
+            expect(port).toEqual(32773);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method(function (err, port) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(port).toEqual(32773);
+          done();
+        });
       }
-      expect(err).toBeNull();
-      expect(port).toEqual(32773);
-      done();
     });
-  });
 
-  test.each([
-    ['getPort()', portfinder.getPort],
-    ['getPortPromise()', portfinder.getPortPromise],
-  ])('the %s promise method should respond with the first free port (32773)', function (name, method, done) {
-    method()
-      .then(function (port) {
-        expect(port).toEqual(32773);
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
+    test('with user passed duplicate host', function (done) {
+      if (isPromise) {
+        method({ host: 'localhost' })
+          .then(function (port) {
+            expect(port).toEqual(32773);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method({ host: 'localhost' }, function (err, port) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(port).toEqual(32773);
+          done();
+        });
+      }
+    });
+
+    test('with stopPort smaller than available port', function (done) {
+      // stopPort: 32772 is smaller than available port 32773 (32768 + 5)
+      if (isPromise) {
+        method({ stopPort: 32772 })
+          .then(function () {
+            done('Expected error to be thrown');
+          })
+          .catch(function (err) {
+            expect(err).not.toBeNull();
+            expect(err.message).toEqual('No open ports found in between 32768 and 32772');
+            done();
+          });
+      } else {
+        method({ stopPort: 32772 }, function (err, port) {
+          expect(err).not.toBeNull();
+          expect(err.message).toEqual('No open ports found in between 32768 and 32772');
+          expect(port).toBeUndefined();
+          done();
+        });
+      }
+    });
+
+    test('should respond with the first free port (32773) less than provided stopPort', function (done) {
+      // stopPort: 32774 is greater than available port 32773 (32768 + 5)
+      if (isPromise) {
+        method({ stopPort: 32774 })
+          .then(function (port) {
+            expect(port).toEqual(32773);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method({ stopPort: 32774 }, function (err, port) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(port).toEqual(32773);
+          done();
+        });
+      }
+    });
   });
 });
 
 describe('with no existing servers', function () {
-  test('should respond with the first free port (32768)', function (done) {
-    portfinder.getPort(function (err, port) {
-      if (err) {
-        done(err);
-        return;
+  describe.each([
+    ['getPort()', false, portfinder.getPort],
+    ['getPort()', true, portfinder.getPort],
+    ['getPortPromise()', true, portfinder.getPortPromise],
+  ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+    test('should respond with the first free port (32768)', function (done) {
+      if (isPromise) {
+        method()
+          .then(function (port) {
+            expect(port).toEqual(32768);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method(function (err, port) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(port).toEqual(32768);
+          done();
+        });
       }
-      expect(err).toBeNull();
-      expect(port).toEqual(32768);
-      done();
     });
-  });
-
-  test.each([
-    ['getPort()', portfinder.getPort],
-    ['getPortPromise()', portfinder.getPortPromise],
-  ])('the %s promise method should respond with a promise of first free port (32768)', function (name, method, done) {
-    method()
-      .then(function (port) {
-        expect(port).toEqual(32768);
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
   });
 });
 
-test('the getPort() method with startPort less than or equal to 80', function (done) {
-  portfinder.getPort({ startPort: 80 }, function (err, port) {
-    expect(err).toBeNull();
-    expect(port).toBeGreaterThanOrEqual(80);
-    done();
+describe.each([
+  ['getPort()', false, portfinder.getPort],
+  ['getPort()', true, portfinder.getPort],
+  ['getPortPromise()', true, portfinder.getPortPromise],
+])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+  test('with startPort less than or equal to 80', function (done) {
+    if (isPromise) {
+      method({ startPort: 80 })
+        .then(function (port) {
+          expect(port).toBeGreaterThanOrEqual(80);
+          done();
+        })
+        .catch(function (err) {
+          done(err);
+        });
+    } else {
+      method({ startPort: 80 }, function (err, port) {
+        if (err) {
+          done(err);
+          return;
+        }
+        expect(err).toBeNull();
+        expect(port).toBeGreaterThanOrEqual(80);
+        done();
+      });
+    }
   });
 });
 
@@ -122,12 +190,30 @@ describe('with no available ports above the start port', function () {
     helper.stopServers(servers, done);
   });
 
-  test('the getPort() method requesting an unavailable port', function (done) {
-    portfinder.getPort({ port: 65530 }, function (err, port) {
-      expect(err).not.toBeNull();
-      expect(err.message).toEqual('No open ports available');
-      expect(port).toBeUndefined();
-      done();
+  describe.each([
+    ['getPort()', false, portfinder.getPort],
+    ['getPort()', true, portfinder.getPort],
+    ['getPortPromise()', true, portfinder.getPortPromise],
+  ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+    test('the getPort() method requesting an unavailable port', function (done) {
+      if (isPromise) {
+        method({ port: 65530 })
+          .then(function () {
+            done('Expected error to be thrown');
+          })
+          .catch(function (err) {
+            expect(err).not.toBeNull();
+            expect(err.message).toEqual('No open ports available');
+            done();
+          });
+      } else {
+        method({ port: 65530 }, function (err, port) {
+          expect(err).not.toBeNull();
+          expect(err.message).toEqual('No open ports available');
+          expect(port).toBeUndefined();
+          done();
+        });
+      }
     });
   });
 });
