@@ -10,7 +10,8 @@
 const portfinder = require('../lib/portfinder'),
       helper = require('./helper');
 
-portfinder.basePort = 32768;
+const basePort = 32768;
+portfinder.basePort = basePort;
 
 describe('with 5 existing servers', function () {
   const servers = [];
@@ -152,32 +153,43 @@ describe('with no existing servers', function () {
   });
 });
 
-describe.each([
-  ['getPort()', false, portfinder.getPort],
-  ['getPort()', true, portfinder.getPort],
-  ['getPortPromise()', true, portfinder.getPortPromise],
-])(`the %s method (promise: %p)`, function (name, isPromise, method) {
-  test('with startPort less than or equal to 80', function (done) {
-    if (isPromise) {
-      method({ startPort: 80 })
-        .then(function (port) {
-          expect(port).toBeGreaterThanOrEqual(80);
+
+describe('with startPort provided', function () {
+  beforeEach(function (done) {
+    portfinder.basePort = 8000;
+    done();
+  });
+  afterEach(function (done) {
+    portfinder.basePort = basePort;
+    done();
+  });
+  describe.each([
+    ['getPort()', false, portfinder.getPort],
+    ['getPort()', true, portfinder.getPort],
+    ['getPortPromise()', true, portfinder.getPortPromise],
+  ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+    test('with startPort less than or equal to 9050', function (done) {
+      if (isPromise) {
+        method({ startPort: 9050 })
+          .then(function (port) {
+            expect(port).toBeGreaterThanOrEqual(9050);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method({ startPort: 9050 }, function (err, port) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(port).toBeGreaterThanOrEqual(9050);
           done();
-        })
-        .catch(function (err) {
-          done(err);
         });
-    } else {
-      method({ startPort: 80 }, function (err, port) {
-        if (err) {
-          done(err);
-          return;
-        }
-        expect(err).toBeNull();
-        expect(port).toBeGreaterThanOrEqual(80);
-        done();
-      });
-    }
+      }
+    });
   });
 });
 
