@@ -32,12 +32,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    - name: Update npm
-      if: matrix.node-version == '6.x'
-      run: npm install -g npm@^5
-
     - name: Install dependencies
       run: npm install
+
+    - name: Install jest for node < 14
+      if: matrix.node-version == '10.x' || matrix.node-version == '12.x'
+      run: npm install jest@^27.5.1
 
     - name: Set debug on windows
       if: matrix.os == 'windows-latest'
