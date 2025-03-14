@@ -155,13 +155,11 @@ describe('with no existing servers', function () {
 
 
 describe('with startPort provided', function () {
-  beforeEach(function (done) {
+  beforeAll(function () {
     portfinder.basePort = 8000;
-    done();
   });
-  afterEach(function (done) {
+  afterAll(function () {
     portfinder.basePort = basePort;
-    done();
   });
   describe.each([
     ['getPort()', false, portfinder.getPort],
