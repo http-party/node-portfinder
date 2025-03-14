@@ -22,35 +22,84 @@ describe('with 5 existing servers', function () {
     helper.stopServers(servers, done);
   });
 
-  test('the getPorts() method with an argument of 3 should respond with the first three available ports (32773, 32774, 32775)', function (done) {
-    portfinder.getPorts(3, function (err, ports) {
-      expect(err).toBeNull();
-      expect(ports).toEqual([32773, 32774, 32775]);
-      done();
+  describe.each([
+    ['getPorts()', false, portfinder.getPorts],
+    ['getPorts()', true, portfinder.getPorts],
+    ['getPortsPromise()', true, portfinder.getPortsPromise],
+  ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+    test('with an argument of 3 should respond with the first three available ports (32773, 32774, 32775)', function (done) {
+      if (isPromise) {
+        method(3)
+          .then(function (ports) {
+            expect(ports).toEqual([32773, 32774, 32775]);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method(3, function (err, ports) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(ports).toEqual([32773, 32774, 32775]);
+          done();
+        });
+      }
+    });
+
+    test('with stopPort smaller than 3 available ports', function (done) {
+      if (isPromise) {
+        method(3, { stopPort: 32774 })
+          .then(function () {
+            done('Expected error to be thrown');
+          })
+          .catch(function (err) {
+            expect(err).not.toBeNull();
+            expect(err.message).toEqual('No open ports found in between 32768 and 32774');
+            done();
+          });
+      } else {
+        method(3, { stopPort: 32774 }, function (err, ports) {
+          expect(err).not.toBeNull();
+          expect(err.message).toEqual('No open ports found in between 32768 and 32774');
+          expect(ports).toEqual([32773, 32774, undefined]);
+          done();
+        });
+      }
     });
   });
 });
 
 describe('with no existing servers', function () {
-  test('the getPorts() method with an argument of 3 should respond with the first three available ports (32768, 32769, 32770)', function (done) {
-    portfinder.getPorts(3, function (err, ports) {
-      expect(err).toBeNull();
-      expect(ports).toEqual([32768, 32769, 32770]);
-      done();
+  describe.each([
+    ['getPorts()', false, portfinder.getPorts],
+    ['getPorts()', true, portfinder.getPorts],
+    ['getPortsPromise()', true, portfinder.getPortsPromise],
+  ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+    test('with an argument of 3 should respond with the first three available ports (32768, 32769, 32770)', function (done) {
+      if (isPromise) {
+        method(3)
+          .then(function (ports) {
+            expect(ports).toEqual([32768, 32769, 32770]);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      } else {
+        method(3, function (err, ports) {
+          if (err) {
+            done(err);
+            return;
+          }
+          expect(err).toBeNull();
+          expect(ports).toEqual([32768, 32769, 32770]);
+          done();
+        });
+      }
     });
-  });
-
-  test.each([
-    ['getPorts()', portfinder.getPorts],
-    ['getPortsPromise()', portfinder.getPortsPromise],
-  ])('the %s promise method with an argument of 3 should respond with the first three available ports (32768, 32769, 32770)', function (name, method, done) {
-    method(3)
-      .then(function (ports) {
-        expect(ports).toEqual([32768, 32769, 32770]);
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
   });
 });
