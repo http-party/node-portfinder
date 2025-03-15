@@ -25,7 +25,8 @@ function createServers (callback) {
     function (next) {
       const server = net.createServer(function () { }),
             name = base === 0 ? 'test.sock' : 'test' + base + '.sock';
-      let sock = path.join(socketDir, name);
+      const socket = path.join(socketDir, name);
+      let sock = socket;
 
       // shamelessly stolen from foreverjs,
       // https://github.com/foreverjs/forever/blob/6d143609dd3712a1cf1bc515d24ac6b9d32b2588/lib/forever/worker.js#L141-L154
@@ -46,22 +47,19 @@ function createServers (callback) {
 
       server.listen(sock, next);
       base++;
-      servers.push(server);
+      servers.push([server, socket]);
     }, callback);
 }
 
-function stopServers(callback, index) {
-  if (index < servers.length) {
-    servers[index].close(function (err) {
-      if (err) {
-        callback(err, false);
-      } else {
-        stopServers(callback, index + 1);
+function stopServers(callback) {
+  _async.each(servers, function ([server, socket], next) {
+    server.close(function () {
+      if (process.platform === 'win32' && fs.existsSync(socket)) {
+        fs.unlinkSync(socket);
       }
+      next();
     });
-  } else {
-    callback(null, true);
-  }
+  }, callback);
 }
 
 function cleanup(callback) {
@@ -74,7 +72,7 @@ function cleanup(callback) {
   if (fs.existsSync(badDir)) {
     fs.rmdirSync(badDir);
   }
-  stopServers(callback, 0);
+  stopServers(callback);
 }
 
 describe('portfinder', function () {
@@ -88,60 +86,126 @@ describe('portfinder', function () {
 
   describe('with 5 existing servers', function () {
     beforeAll(function (done) {
-      createServers(function () {
-        portfinder.getSocket({
-          path: path.join(badDir, 'test.sock'),
-        }, function () {
-          done();
-        });
-      });
+      createServers(done);
     });
 
     afterAll(function (done) {
       stopServers(done);
     });
 
-    test('the getSocket() method should respond with the first free socket (test5.sock)', function (done) {
-      portfinder.getSocket({
-        path: path.join(socketDir, 'test.sock'),
-      }, function (err, socket) {
-        expect(err).toBeNull();
-        expect(socket).toEqual(path.join(socketDir, 'test5.sock'));
-        done();
+    describe.each([
+      ['getSocket()', false, portfinder.getSocket],
+      ['getSocket()', true, portfinder.getSocket],
+      ['getSocketPromise()', true, portfinder.getSocketPromise],
+    ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
+      test('should respond with the first free socket (test5.sock)', function (done) {
+        if (isPromise) {
+          method({
+            path: path.join(socketDir, 'test.sock')
+          })
+            .then(function (socket) {
+              expect(socket).toEqual(path.join(socketDir, 'test5.sock'));
+              done();
+            })
+            .catch(function (err) {
+              done(err);
+            });
+        } else {
+          method({
+            path: path.join(socketDir, 'test.sock'),
+          }, function (err, socket) {
+            if (err) {
+              done(err);
+              return;
+            }
+            expect(err).toBeNull();
+            expect(socket).toEqual(path.join(socketDir, 'test5.sock'));
+            done();
+          });
+        }
       });
     });
   });
 
   describe('with no existing servers', function () {
-    describe('the getSocket() method', function () {
+    describe.each([
+      ['getSocket()', false, portfinder.getSocket],
+      ['getSocket()', true, portfinder.getSocket],
+      ['getSocketPromise()', true, portfinder.getSocketPromise],
+    ])(`the %s method (promise: %p)`, function (name, isPromise, method) {
       test("with a directory that doesn't exist should respond with the first free socket (test.sock)", function (done) {
-        portfinder.getSocket({
-          path: path.join(badDir, 'test.sock'),
-        }, function (err, socket) {
-          expect(err).toBeNull();
-          expect(socket).toEqual(path.join(badDir, 'test.sock'));
-          done();
-        });
+        if (isPromise) {
+          method({
+            path: path.join(badDir, 'test.sock'),
+          })
+            .then(function (socket) {
+              expect(socket).toEqual(path.join(badDir, 'test.sock'));
+              done();
+            })
+            .catch(function (err) {
+              done(err);
+            });
+        } else {
+          method({
+            path: path.join(badDir, 'test.sock'),
+          }, function (err, socket) {
+            if (err) {
+              done(err);
+              return;
+            }
+            expect(err).toBeNull();
+            expect(socket).toEqual(path.join(badDir, 'test.sock'));
+            done();
+          });
+        }
       });
 
       test("with a nested directory that doesn't exist should respond with the first free socket (test.sock)", function (done) {
-        portfinder.getSocket({
-          path: path.join(badDir, 'deeply', 'nested', 'test.sock'),
-        }, function (err, socket) {
-          expect(err).toBeNull();
-          expect(socket).toEqual(path.join(badDir, 'deeply', 'nested', 'test.sock'));
-          done();
-        });
+        if (isPromise) {
+          method({
+            path: path.join(badDir, 'deeply', 'nested', 'test.sock'),
+          })
+            .then(function (socket) {
+              expect(socket).toEqual(path.join(badDir, 'deeply', 'nested', 'test.sock'));
+              done();
+            })
+            .catch(function (err) {
+              done(err);
+            });
+        } else {
+          method({
+            path: path.join(badDir, 'deeply', 'nested', 'test.sock'),
+          }, function (err, socket) {
+            expect(err).toBeNull();
+            expect(socket).toEqual(path.join(badDir, 'deeply', 'nested', 'test.sock'));
+            done();
+          });
+        }
       });
 
-      test('with a directory that exists should respond with the first free socket (test.sock)', function (done) {
-        portfinder.getSocket({
-          path: path.join(socketDir, 'exists.sock'),
-        }, function (err, socket) {
-          expect(err).toBeNull();
-          expect(socket).toEqual(path.join(socketDir, 'exists.sock'));
-          done();
-        });
+      // We don't use `test.sock` here due to some race condition on Windows in freeing the `test.sock` file
+      // when we close the servers.
+      test('with a directory that exists should respond with the first free socket (foo.sock)', function (done) {
+        if (isPromise) {
+          method({
+            path: path.join(socketDir, 'foo.sock'),
+          })
+            .then(function (socket) {
+              expect(socket).toEqual(path.join(socketDir, 'foo.sock'));
+              done();
+            })
+            .catch(function (err) {
+              done(err);
+            });
+        } else {
+          method({
+            path: path.join(socketDir, 'foo.sock'),
+          }, function (err, socket) {
+            expect(err).toBeNull();
+            expect(socket).toEqual(path.join(socketDir, 'foo.sock'));
+            done();
+          });
+        }
       });
     });
   });
