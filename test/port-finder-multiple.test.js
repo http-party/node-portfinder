@@ -58,14 +58,14 @@ describe('with 5 existing servers', function () {
           })
           .catch(function (err) {
             expect(err).not.toBeNull();
-            expect(err.message).toEqual('No open ports found in between 32768 and 32774');
+            expect(err.message).toEqual('Searching for an open port failed at port 32775.');
             done();
           });
       } else {
         method(3, { stopPort: 32774 }, function (err, ports) {
           expect(err).not.toBeNull();
-          expect(err.message).toEqual('No open ports found in between 32768 and 32774');
-          expect(ports).toEqual([32773, 32774, undefined]);
+          expect(err.message).toEqual('Searching for an open port failed at port 32775.');
+          expect(ports).toEqual([32773, 32774, undefined]); // Failed at port 32775
           done();
         });
       }
