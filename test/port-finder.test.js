@@ -227,3 +227,21 @@ describe('with no available ports above the start port', function () {
     });
   });
 });
+
+test('should return error if port is negative', function (done) {
+  portfinder.getPort({ port: -1 }, function (err, port) {
+    expect(err).not.toBeNull();
+    expect(err.message).toEqual('Provided options.port(-1) is less than 0, which are cannot be bound.');
+    expect(port).toBeUndefined();
+    done();
+  });
+});
+
+test('should return error if port is less than stopPort', function (done) {
+  portfinder.getPort({ port: 32768, stopPort: 32767 }, function (err, port) {
+    expect(err).not.toBeNull();
+    expect(err.message).toEqual('Provided options.stopPort(32767) is less than options.port(32768)');
+    expect(port).toBeUndefined();
+    done();
+  });
+});
