@@ -28,6 +28,20 @@ interface PortFinderOptions {
   stopPort?: number;
 }
 
+type SocketfinderCallback = (err: Error, socket: string) => void;
+
+interface SocketFinderOptions {
+  /**
+   * Mode to use when creating folder for socket if it doesn't exist
+   */
+  mod?: number;
+  /**
+   * Path to the socket file to create
+   * (defaults to `${exports.basePath}.sock` if not provided)
+   */
+  path?: string;
+}
+
 /**
  * The lowest port to begin any port search from.
  */
@@ -81,3 +95,9 @@ export function getPorts(count: number, options: PortFinderOptions, callback: (e
  * Responds a promise that resolves to an array of unbound ports on the current machine.
  */
 export function getPortsPromise(count: number, options?: PortFinderOptions): Promise<Array<number>>;
+
+export function getSocket(options: SocketFinderOptions): Promise<string>;
+export function getSocket(callback: SocketfinderCallback): void;
+export function getSocket(options: SocketFinderOptions, callback: SocketfinderCallback): void;
+
+export function getSocketPromise(options?: SocketFinderOptions): Promise<string>;
