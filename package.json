@@ -1,7 +1,7 @@
 {
   "name": "portfinder",
   "description": "A simple tool to find an open port on the current machine",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>, Erik Trom <erik.trom@gmail.com>",
   "repository": {
     "type": "git",
