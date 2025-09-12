@@ -2,7 +2,10 @@
   "name": "portfinder",
   "description": "A simple tool to find an open port on the current machine",
   "version": "1.0.37",
-  "author": "Charlie Robbins <charlie.robbins@gmail.com>, Erik Trom <erik.trom@gmail.com>",
+  "author": "Charlie Robbins <charlie.robbins@gmail.com>",
+  "contributors": [
+    "Erik Trom <erik.trom@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:http-party/node-portfinder.git"
